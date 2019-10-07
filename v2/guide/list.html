@@ -1,0 +1,1544 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <title>List Rendering — Vue.js</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Vue.js - Kademeli JavaScript Uygulama Çerçevesi">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="alternate" hreflang="x-default" href="https://vuejs.org/v2/guide/list.html">
+    <link rel="alternate" hreflang="zh" href="https://cn.vuejs.org/v2/guide/list.html">
+    <link rel="alternate" hreflang="ja" href="https://jp.vuejs.org/v2/guide/list.html">
+    <link rel="alternate" hreflang="ru" href="https://ru.vuejs.org/v2/guide/list.html">
+    <link rel="alternate" hreflang="ko" href="https://kr.vuejs.org/v2/guide/list.html">
+    <link rel="alternate" hreflang="pt-BR" href="https://br.vuejs.org/v2/guide/list.html">
+    <link rel="alternate" hreflang="fr" href="https://fr.vuejs.org/v2/guide/list.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="List Rendering — Vue.js">
+    <meta property="og:description" content="Vue.js - Kademeli JavaScript Uygulama Çerçevesi">
+    <meta property="og:image" content="https://vuejs.org//tr.vuejs.org/images/logo.png">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="List Rendering — Vue.js">
+    <meta name="twitter:description" content="Vue.js - Kademeli JavaScript Uygulama Çerçevesi">
+    <meta name="twitter:image" content="https://vuejs.org/images/logo.png">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/tr.vuejs.org/images/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/tr.vuejs.org/images/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/tr.vuejs.org/images/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/tr.vuejs.org/images/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/tr.vuejs.org/images/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/tr.vuejs.org/images/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/tr.vuejs.org/images/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/tr.vuejs.org/images/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/tr.vuejs.org/images/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/tr.vuejs.org/images/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/tr.vuejs.org/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/tr.vuejs.org/images/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/tr.vuejs.org/images/icons/favicon-16x16.png">
+    <meta name="msapplication-TileImage" content="/images/icons/ms-icon-144x144.png">
+    <link rel="icon" href="/tr.vuejs.org/images/logo.png" type="image/png">
+
+    <meta name="msapplication-TileColor" content="#4fc08d">
+    <meta name="theme-color" content="#4fc08d">
+
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <link rel="manifest" href="/manifest.json">
+
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Dosis:500&text=Vue.js" rel="stylesheet" type="text/css">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- main page styles -->
+    <link rel="stylesheet" href="/tr.vuejs.org/css/page.css">
+
+    <!-- this needs to be loaded before guide's inline scripts -->
+    <script src="/tr.vuejs.org/js/vue.js"></script>
+    <script>
+      Vue.config.productionTip = false
+      window.PAGE_TYPE = "guide"
+    </script>
+
+    <!-- ga -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-46852172-1', 'vuejs.org');
+      ga('send', 'pageview');
+    </script>
+
+    <!-- vimeo analytics -->
+    <script type="text/javascript" defer="defer" src="https://extend.vimeocdn.com/ga/72160148.js"></script>
+  </head>
+  <body class="docs">
+    <div id="mobile-bar">
+      <a class="menu-button"></a>
+      <a class="logo" href="/"></a>
+    </div>
+    <div id="header">
+  <a id="logo" href="/tr.vuejs.org/">
+    <img src="/tr.vuejs.org/images/logo.png" alt="vue logo">
+    <span>Vue.js</span>
+  </a>
+  <ul id="nav">
+    <li>
+  <form id="search-form">
+    <input type="text" id="search-query-nav" class="search-query st-default-search-input">
+  </form>
+</li>
+<li class="nav-dropdown-container learn">
+  <a class="nav-link current">Öğren</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Dokümantasyon</h4></li>
+    <li>
+      <ul>
+        <li><a href="/tr.vuejs.org/v2/guide/" class="nav-link current">Kılavuz</a></li>
+        <li><a href="/tr.vuejs.org/v2/api/" class="nav-link">API</a></li>
+        <li><a href="/tr.vuejs.org/v2/style-guide/" class="nav-link">Stil Kılavuzu</a></li>
+        <li><a href="/tr.vuejs.org/v2/examples/" class="nav-link">Örnekler</a></li>
+        <li><a href="/tr.vuejs.org/v2/cookbook/" class="nav-link">Dersler</a></li>
+      </ul>
+    </li>
+    <li><h4>Video Dersleri</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://www.vuemastery.com/courses/" class="nav-link" target="_blank">Vue Mastery</a></li>
+        <li><a href="https://vueschool.io/?friend=vuejs&utm_source=Vuejs.org&utm_medium=Link&utm_content=Navbar%20Dropdown" class="nav-link" target="_blank">Vue School</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container ecosystem">
+  <a class="nav-link">Ekosistem</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Yardım</h4></li>
+    <li><ul>
+      <li><a href="https://forum.vuejs.org/" class="nav-link" target="_blank">Forum</a></li>
+      <li><a href="https://chat.vuejs.org/" class="nav-link" target="_blank">Chat</a></li>
+      <li><a href="https://events.vuejs.org/meetups/" class="nav-link" target="_blank">Buluşmalar</a></li>
+    </ul></li>
+    <li><h4>Proje Araçları</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://github.com/vuejs/vue-devtools" class="nav-link" target="_blank">Devtools</a></li>
+        <li><a href="https://cli.vuejs.org/" class="nav-link" target="_blank">Vue CLI</a></li>
+        <li><a href="https://vue-loader.vuejs.org" class="nav-link" target="_blank">Vue Loader</a></li>
+      </ul>
+    </li>
+    <li><h4>Ana Kütüphaneler</h4></li>
+    <li><ul>
+      <li><a href="https://router.vuejs.org/" class="nav-link" target="_blank">Vue Router</a></li>
+      <li><a href="https://vuex.vuejs.org/" class="nav-link" target="_blank">Vuex</a></li>
+      <li><a href="https://ssr.vuejs.org/" class="nav-link" target="_blank">Vue Server Renderer</a></li>
+    </ul></li>
+    <li><h4>Son Gelişmeler</h4></li>
+    <li><ul>
+      <li><a href="https://news.vuejs.org" class="nav-link" target="_blank">Haftalık Haberler</a></li>
+      <li><a href="https://github.com/vuejs/vue/projects/6" class="nav-link" target="_blank">Gelecek Planları</a></li>
+      <li><a href="https://events.vuejs.org/" class="nav-link" target="_blank">Etkinlikler</a></li>
+      <li><a href="https://twitter.com/vuejs" class="nav-link" target="_blank">Twitter</a></li>
+      <li><a href="https://medium.com/the-vue-point" class="nav-link" target="_blank">Blog</a></li>
+      <li><a href="https://vuejobs.com/?ref=vuejs" class="nav-link" target="_blank">İş İmkanları</a></li>
+      <li><a href="https://dev.to/t/vue" class="nav-link" target="_blank">DEV Topluluğu</a></li>
+    </ul></li>
+    <li><h4>Kaynak Listeleri</h4></li>
+    <li><ul>
+      <li><a href="https://github.com/vuejs" class="nav-link" target="_blank">Resmi Kod Kaynakları</a></li>
+      <li><a href="https://curated.vuejs.org/" class="nav-link" target="_blank">Vue Bağlantılı Projeler</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" class="nav-link" target="_blank">Awesome Vue</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li>
+  <a href="/tr.vuejs.org/v2/guide/team.html" class="nav-link team">Team</a>
+</li>
+<li class="nav-dropdown-container support-vue">
+  <a href="/support-vuejs/" class="nav-link">Vue'yi Destekle</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><ul>
+      <li><a href="/support-vuejs/#One-time-Donations" class="nav-link">Tek Seferlik Bağış</a></li>
+      <li><a href="/support-vuejs/#Recurring-Pledges" class="nav-link">Tekrarlı Ödeme</a></li>
+      <li><a href="https://vue.threadless.com" target="_blank" class="nav-link">T-Shirt Mağazası</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container language">
+  <a class="nav-link">Diğer Diller</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">English</a></li>
+    <li><a href="https://cn.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://jp.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">日本語</a></li>
+    <li><a href="https://ru.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Русский</a></li>
+    <li><a href="https://kr.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">한국어</a></li>
+    <li><a href="https://br.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Português</a></li>
+    <li><a href="https://fr.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Français</a></li>
+    <li><a href="https://vi.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Tiếng Việt</a></li>
+    <li><a href="https://animyrch.github.io/tr.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Türkçe</a></li>
+  </ul>
+</li>
+
+
+  </ul>
+</div>
+
+    
+      <div id="main" class="fix-sidebar">
+        
+          
+  <div class="sidebar">
+  <div class="sidebar-inner">
+    <ul class="main-menu">
+      <li>
+  <form id="search-form">
+    <input type="text" id="search-query-sidebar" class="search-query st-default-search-input">
+  </form>
+</li>
+<li class="nav-dropdown-container learn">
+  <a class="nav-link current">Öğren</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Dokümantasyon</h4></li>
+    <li>
+      <ul>
+        <li><a href="/tr.vuejs.org/v2/guide/" class="nav-link current">Kılavuz</a></li>
+        <li><a href="/tr.vuejs.org/v2/api/" class="nav-link">API</a></li>
+        <li><a href="/tr.vuejs.org/v2/style-guide/" class="nav-link">Stil Kılavuzu</a></li>
+        <li><a href="/tr.vuejs.org/v2/examples/" class="nav-link">Örnekler</a></li>
+        <li><a href="/tr.vuejs.org/v2/cookbook/" class="nav-link">Dersler</a></li>
+      </ul>
+    </li>
+    <li><h4>Video Dersleri</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://www.vuemastery.com/courses/" class="nav-link" target="_blank">Vue Mastery</a></li>
+        <li><a href="https://vueschool.io/?friend=vuejs&utm_source=Vuejs.org&utm_medium=Link&utm_content=Navbar%20Dropdown" class="nav-link" target="_blank">Vue School</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container ecosystem">
+  <a class="nav-link">Ekosistem</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Yardım</h4></li>
+    <li><ul>
+      <li><a href="https://forum.vuejs.org/" class="nav-link" target="_blank">Forum</a></li>
+      <li><a href="https://chat.vuejs.org/" class="nav-link" target="_blank">Chat</a></li>
+      <li><a href="https://events.vuejs.org/meetups/" class="nav-link" target="_blank">Buluşmalar</a></li>
+    </ul></li>
+    <li><h4>Proje Araçları</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://github.com/vuejs/vue-devtools" class="nav-link" target="_blank">Devtools</a></li>
+        <li><a href="https://cli.vuejs.org/" class="nav-link" target="_blank">Vue CLI</a></li>
+        <li><a href="https://vue-loader.vuejs.org" class="nav-link" target="_blank">Vue Loader</a></li>
+      </ul>
+    </li>
+    <li><h4>Ana Kütüphaneler</h4></li>
+    <li><ul>
+      <li><a href="https://router.vuejs.org/" class="nav-link" target="_blank">Vue Router</a></li>
+      <li><a href="https://vuex.vuejs.org/" class="nav-link" target="_blank">Vuex</a></li>
+      <li><a href="https://ssr.vuejs.org/" class="nav-link" target="_blank">Vue Server Renderer</a></li>
+    </ul></li>
+    <li><h4>Son Gelişmeler</h4></li>
+    <li><ul>
+      <li><a href="https://news.vuejs.org" class="nav-link" target="_blank">Haftalık Haberler</a></li>
+      <li><a href="https://github.com/vuejs/vue/projects/6" class="nav-link" target="_blank">Gelecek Planları</a></li>
+      <li><a href="https://events.vuejs.org/" class="nav-link" target="_blank">Etkinlikler</a></li>
+      <li><a href="https://twitter.com/vuejs" class="nav-link" target="_blank">Twitter</a></li>
+      <li><a href="https://medium.com/the-vue-point" class="nav-link" target="_blank">Blog</a></li>
+      <li><a href="https://vuejobs.com/?ref=vuejs" class="nav-link" target="_blank">İş İmkanları</a></li>
+      <li><a href="https://dev.to/t/vue" class="nav-link" target="_blank">DEV Topluluğu</a></li>
+    </ul></li>
+    <li><h4>Kaynak Listeleri</h4></li>
+    <li><ul>
+      <li><a href="https://github.com/vuejs" class="nav-link" target="_blank">Resmi Kod Kaynakları</a></li>
+      <li><a href="https://curated.vuejs.org/" class="nav-link" target="_blank">Vue Bağlantılı Projeler</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" class="nav-link" target="_blank">Awesome Vue</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li>
+  <a href="/tr.vuejs.org/v2/guide/team.html" class="nav-link team">Team</a>
+</li>
+<li class="nav-dropdown-container support-vue">
+  <a href="/support-vuejs/" class="nav-link">Vue'yi Destekle</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><ul>
+      <li><a href="/support-vuejs/#One-time-Donations" class="nav-link">Tek Seferlik Bağış</a></li>
+      <li><a href="/support-vuejs/#Recurring-Pledges" class="nav-link">Tekrarlı Ödeme</a></li>
+      <li><a href="https://vue.threadless.com" target="_blank" class="nav-link">T-Shirt Mağazası</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container language">
+  <a class="nav-link">Diğer Diller</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">English</a></li>
+    <li><a href="https://cn.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://jp.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">日本語</a></li>
+    <li><a href="https://ru.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Русский</a></li>
+    <li><a href="https://kr.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">한국어</a></li>
+    <li><a href="https://br.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Português</a></li>
+    <li><a href="https://fr.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Français</a></li>
+    <li><a href="https://vi.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Tiếng Việt</a></li>
+    <li><a href="https://animyrch.github.io/tr.vuejs.org/v2/guide/list.html" class="nav-link" target="_blank">Türkçe</a></li>
+  </ul>
+</li>
+
+
+    </ul>
+    <div class="list">
+      <div id="sidebar-sponsors-special">
+  <div class="main-sponsor">
+    <span>Özel Sponsor</span>
+    <div>
+    <a href="https://stdlib.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/stdlib.png" alt>
+    </a>
+    </div>
+  </div>
+</div>
+
+<div id="sidebar-sponsors-platinum-left">
+  <div class="main-sponsor">
+    <span>Platin Sponsorlar</span>
+    <div>
+    <a href="https://moduscreate.com/?utm_source=Vue&utm_medium=Partnership&utm_campaign=VueShip" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/modus.png" alt="Modus">
+    </a>
+    <a href="https://bit.dev/?utm_source=vue&utm_medium=vue&utm_campaign=vue&utm_term=vue&utm_content=vue" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/bit.png" alt="Bit">
+    </a>
+    <a href="http://tooltwist.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/tooltwist.png" alt="Tooltwist">
+    </a>
+    <a href="https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vueschool.png" alt="VueSchool">
+    </a>
+    <a href="https://vehikl.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vehikl.png" alt="Vehikl">
+    </a>
+    <a href="https://www.nativescript.org/vue?utm_source=vue-js-org&utm_medium=website&utm_campaign=nativescript-awareness" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/nativescript.png" alt="NativeScript">
+    </a>
+    </div>
+  </div>
+  <a class="become-backer" href="/tr.vuejs.org/support-vuejs">
+    Siz de sponsor olun
+  </a>
+</div>
+
+
+      
+        <h2>
+          
+          Guide
+          
+            <select class="version-select">
+              <option value="SELF" selected>2.x</option>
+              <option value="v1">1.0</option>
+              <option value="012">0.12</option>
+              <option value="011">0.11</option>
+            </select>
+          
+        </h2>
+        <ul class="menu-root">
+  
+    
+    
+      
+        <li><h3>Essentials</h3></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/installation.html" class="sidebar-link">Kurulum</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/index.html" class="sidebar-link">Giriş</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/instance.html" class="sidebar-link">Vue Örneği</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/syntax.html" class="sidebar-link">Şablon Sentaksı</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/computed.html" class="sidebar-link">Computed Properties and Watchers</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/class-and-style.html" class="sidebar-link">Class and Style Bindings</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/conditional.html" class="sidebar-link">Conditional Rendering</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/list.html" class="sidebar-link current">List Rendering</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/events.html" class="sidebar-link">Event Handling</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/forms.html" class="sidebar-link">Form Input Bindings</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/components.html" class="sidebar-link">Components Basics</a>
+    </li>
+  
+    
+    
+      
+      
+        <li><h3>Components In-Depth</h3></li>
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/components-registration.html" class="sidebar-link">Component Registration</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/components-props.html" class="sidebar-link">Props</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/components-custom-events.html" class="sidebar-link">Custom Events</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/components-slots.html" class="sidebar-link">Slots</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/components-dynamic-async.html" class="sidebar-link">Dynamic & Async Components</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/components-edge-cases.html" class="sidebar-link">Handling Edge Cases</a>
+    </li>
+  
+    
+    
+      
+      
+      
+        <li><h3>Transitions & Animation</h3></li>
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/transitions.html" class="sidebar-link">Enter/Leave & List Transitions</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/transitioning-state.html" class="sidebar-link">State Transitions</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+        <li><h3>Reusability & Composition</h3></li>
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/mixins.html" class="sidebar-link">Mixins</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/custom-directive.html" class="sidebar-link">Custom Directives</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/render-function.html" class="sidebar-link">Render Functions & JSX</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/plugins.html" class="sidebar-link">Plugins</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/filters.html" class="sidebar-link">Filters</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+        <li><h3>Tooling</h3></li>
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/single-file-components.html" class="sidebar-link">Single File Components</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/unit-testing.html" class="sidebar-link">Unit Testing</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/typescript.html" class="sidebar-link">TypeScript Support</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/deployment.html" class="sidebar-link">Production Deployment</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+        <li><h3>Scaling Up</h3></li>
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/routing.html" class="sidebar-link">Routing</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/state-management.html" class="sidebar-link">State Management</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/ssr.html" class="sidebar-link">Server-Side Rendering</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+        <li><h3>Internals</h3></li>
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/reactivity.html" class="sidebar-link">Reactivity in Depth</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><h3>Migrating</h3></li>
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/migration.html" class="sidebar-link">Migration from Vue 1.x</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/migration-vue-router.html" class="sidebar-link">Migration from Vue Router 0.7.x</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/migration-vuex.html" class="sidebar-link">Migration from Vuex 0.6.x to 1.0</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><h3>Meta</h3></li>
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/comparison.html" class="sidebar-link">Comparison with Other Frameworks</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/join.html" class="sidebar-link">Join the Vue.js Community!</a>
+    </li>
+  
+    
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/guide/team.html" class="sidebar-link">Meet the Team</a>
+    </li>
+  
+</ul>
+
+      
+    </div>
+  </div>
+</div>
+
+<div id="sidebar-sponsors-platinum-right">
+  <div class="main-sponsor">
+    <span>Platin Sponsorlar</span>
+    <div>
+    <a href="https://moduscreate.com/?utm_source=Vue&utm_medium=Partnership&utm_campaign=VueShip" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/modus.png" alt="Modus">
+    </a>
+    <a href="https://bit.dev/?utm_source=vue&utm_medium=vue&utm_campaign=vue&utm_term=vue&utm_content=vue" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/bit.png" alt="Bit">
+    </a>
+    <a href="http://tooltwist.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/tooltwist.png" alt="Tooltwist">
+    </a>
+    <a href="https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vueschool.png" alt="VueSchool">
+    </a>
+    <a href="https://vehikl.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vehikl.png" alt="Vehikl">
+    </a>
+    <a href="https://www.nativescript.org/vue?utm_source=vue-js-org&utm_medium=website&utm_campaign=nativescript-awareness" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/nativescript.png" alt="NativeScript">
+    </a>
+    </div>
+  </div>
+  <a class="become-backer" href="/tr.vuejs.org/support-vuejs">
+    Siz de sponsor olun
+  </a>
+</div>
+
+
+
+<div class="content guide with-sidebar list-guide">
+  
+    
+      <div id="ad">
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIK2QU&placement=vuejsorg" id="_carbonads_js">
+  </script>
+</div>
+
+    
+  
+  
+    <h1>List Rendering</h1>
+  
+  
+    <h2 id="Mapping-an-Array-to-Elements-with-v-for"><a href="#Mapping-an-Array-to-Elements-with-v-for" class="headerlink" title="Mapping an Array to Elements with v-for"></a>Mapping an Array to Elements with <code>v-for</code></h2><p>We can use the <code>v-for</code> directive to render a list of items based on an array. The <code>v-for</code> directive requires a special syntax in the form of <code>item in items</code>, where <code>items</code> is the source data array and <code>item</code> is an <strong>alias</strong> for the array element being iterated on:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example-1"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"item in items"</span>&gt;</span>
+    &#123;&#123; item.message &#125;&#125;
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+<pre><code class="hljs js"><span class="hljs-keyword">var</span> example1 = <span class="hljs-keyword">new</span> Vue(&#123;
+  <span class="hljs-attr">el</span>: <span class="hljs-string">'#example-1'</span>,
+  <span class="hljs-attr">data</span>: &#123;
+    <span class="hljs-attr">items</span>: [
+      &#123; <span class="hljs-attr">message</span>: <span class="hljs-string">'Foo'</span> &#125;,
+      &#123; <span class="hljs-attr">message</span>: <span class="hljs-string">'Bar'</span> &#125;
+    ]
+  &#125;
+&#125;)</code></pre>
+<p>Result:</p>
+
+<ul id="example-1" class="demo">
+  <li v-for="item in items">
+    {{item.message}}
+  </li>
+</ul>
+<script>
+var example1 = new Vue({
+  el: '#example-1',
+  data: {
+    items: [
+      { message: 'Foo' },
+      { message: 'Bar' }
+    ]
+  }
+})
+</script>
+
+<p>Inside <code>v-for</code> blocks we have full access to parent scope properties. <code>v-for</code> also supports an optional second argument for the index of the current item.</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example-2"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(item, index) in items"</span>&gt;</span>
+    &#123;&#123; parentMessage &#125;&#125; - &#123;&#123; index &#125;&#125; - &#123;&#123; item.message &#125;&#125;
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+<pre><code class="hljs js"><span class="hljs-keyword">var</span> example2 = <span class="hljs-keyword">new</span> Vue(&#123;
+  <span class="hljs-attr">el</span>: <span class="hljs-string">'#example-2'</span>,
+  <span class="hljs-attr">data</span>: &#123;
+    <span class="hljs-attr">parentMessage</span>: <span class="hljs-string">'Parent'</span>,
+    <span class="hljs-attr">items</span>: [
+      &#123; <span class="hljs-attr">message</span>: <span class="hljs-string">'Foo'</span> &#125;,
+      &#123; <span class="hljs-attr">message</span>: <span class="hljs-string">'Bar'</span> &#125;
+    ]
+  &#125;
+&#125;)</code></pre>
+<p>Result:</p>
+
+<ul id="example-2" class="demo">
+  <li v-for="(item, index) in items">
+    {{ parentMessage }} - {{ index }} - {{ item.message }}
+  </li>
+</ul>
+<script>
+var example2 = new Vue({
+  el: '#example-2',
+  data: {
+    parentMessage: 'Parent',
+    items: [
+      { message: 'Foo' },
+      { message: 'Bar' }
+    ]
+  }
+})
+</script>
+
+<p>You can also use <code>of</code> as the delimiter instead of <code>in</code>, so that it is closer to JavaScript’s syntax for iterators:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"item of items"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<h2 id="v-for-with-an-Object"><a href="#v-for-with-an-Object" class="headerlink" title="v-for with an Object"></a><code>v-for</code> with an Object</h2><p>You can also use <code>v-for</code> to iterate through the properties of an object.</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"v-for-object"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"demo"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"value in object"</span>&gt;</span>
+    &#123;&#123; value &#125;&#125;
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+<pre><code class="hljs js"><span class="hljs-keyword">new</span> Vue(&#123;
+  <span class="hljs-attr">el</span>: <span class="hljs-string">'#v-for-object'</span>,
+  <span class="hljs-attr">data</span>: &#123;
+    <span class="hljs-attr">object</span>: &#123;
+      <span class="hljs-attr">title</span>: <span class="hljs-string">'How to do lists in Vue'</span>,
+      <span class="hljs-attr">author</span>: <span class="hljs-string">'Jane Doe'</span>,
+      <span class="hljs-attr">publishedAt</span>: <span class="hljs-string">'2016-04-10'</span>
+    &#125;
+  &#125;
+&#125;)</code></pre>
+<p>Result:</p>
+
+<ul id="v-for-object" class="demo">
+  <li v-for="value in object">
+    {{ value }}
+  </li>
+</ul>
+<script>
+new Vue({
+  el: '#v-for-object',
+  data: {
+    object: {
+      title: 'How to do lists in Vue',
+      author: 'Jane Doe',
+      publishedAt: '2016-04-10'
+    }
+  }
+})
+</script>
+
+<p>You can also provide a second argument for the property’s name (a.k.a. key):</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(value, name) in object"</span>&gt;</span>
+  &#123;&#123; name &#125;&#125;: &#123;&#123; value &#125;&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+
+<div id="v-for-object-value-name" class="demo">
+  <div v-for="(value, name) in object">
+    {{ name }}: {{ value }}
+  </div>
+</div>
+<script>
+new Vue({
+  el: '#v-for-object-value-name',
+  data: {
+    object: {
+      title: 'How to do lists in Vue',
+      author: 'Jane Doe',
+      publishedAt: '2016-04-10'
+    }
+  }
+})
+</script>
+
+<p>And another for the index:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(value, name, index) in object"</span>&gt;</span>
+  &#123;&#123; index &#125;&#125;. &#123;&#123; name &#125;&#125;: &#123;&#123; value &#125;&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+
+<div id="v-for-object-value-name-index" class="demo">
+  <div v-for="(value, name, index) in object">
+    {{ index }}. {{ name }}: {{ value }}
+  </div>
+</div>
+<script>
+new Vue({
+  el: '#v-for-object-value-name-index',
+  data: {
+    object: {
+      title: 'How to do lists in Vue',
+      author: 'Jane Doe',
+      publishedAt: '2016-04-10'
+    }
+  }
+})
+</script>
+
+<p class="tip">When iterating over an object, the order is based on the enumeration order of <code>Object.keys()</code>, which is <strong>not</strong> guaranteed to be consistent across JavaScript engine implementations.</p>
+
+<h2 id="Maintaining-State"><a href="#Maintaining-State" class="headerlink" title="Maintaining State"></a>Maintaining State</h2><p>When Vue is updating a list of elements rendered with <code>v-for</code>, by default it uses an “in-place patch” strategy. If the order of the data items has changed, instead of moving the DOM elements to match the order of the items, Vue will patch each element in-place and make sure it reflects what should be rendered at that particular index. This is similar to the behavior of <code>track-by=&quot;$index&quot;</code> in Vue 1.x.</p>
+<p>This default mode is efficient, but <strong>only suitable when your list render output does not rely on child component state or temporary DOM state (e.g. form input values)</strong>.</p>
+<p>To give Vue a hint so that it can track each node’s identity, and thus reuse and reorder existing elements, you need to provide a unique <code>key</code> attribute for each item:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"item in items"</span> <span class="hljs-attr">v-bind:key</span>=<span class="hljs-string">"item.id"</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- content --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<p>It is recommended to provide a <code>key</code> attribute with <code>v-for</code> whenever possible, unless the iterated DOM content is simple, or you are intentionally relying on the default behavior for performance gains.</p>
+<p>Since it’s a generic mechanism for Vue to identify nodes, the <code>key</code> also has other uses that are not specifically tied to <code>v-for</code>, as we will see later in the guide.</p>
+<p class="tip">Don’t use non-primitive values like objects and arrays as <code>v-for</code> keys. Use string or numeric values instead.</p>
+
+<p>For detailed usage of the <code>key</code> attribute, please see the <a href="https://vuejs.org/v2/api/#key" target="_blank" rel="noopener"><code>key</code> API documentation</a>.</p>
+<h2 id="Array-Change-Detection"><a href="#Array-Change-Detection" class="headerlink" title="Array Change Detection"></a>Array Change Detection</h2><h3 id="Mutation-Methods"><a href="#Mutation-Methods" class="headerlink" title="Mutation Methods"></a>Mutation Methods</h3><p>Vue wraps an observed array’s mutation methods so they will also trigger view updates. The wrapped methods are:</p>
+<ul>
+<li><code>push()</code></li>
+<li><code>pop()</code></li>
+<li><code>shift()</code></li>
+<li><code>unshift()</code></li>
+<li><code>splice()</code></li>
+<li><code>sort()</code></li>
+<li><code>reverse()</code></li>
+</ul>
+<p>You can open the console and play with the previous examples’ <code>items</code> array by calling their mutation methods. For example: <code>example1.items.push({ message: &#39;Baz&#39; })</code>.</p>
+<h3 id="Replacing-an-Array"><a href="#Replacing-an-Array" class="headerlink" title="Replacing an Array"></a>Replacing an Array</h3><p>Mutation methods, as the name suggests, mutate the original array they are called on. In comparison, there are also non-mutating methods, e.g. <code>filter()</code>, <code>concat()</code> and <code>slice()</code>, which do not mutate the original array but <strong>always return a new array</strong>. When working with non-mutating methods, you can replace the old array with the new one:</p>
+<pre><code class="hljs js">example1.items = example1.items.filter(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">item</span>) </span>&#123;
+  <span class="hljs-keyword">return</span> item.message.match(<span class="hljs-regexp">/Foo/</span>)
+&#125;)</code></pre>
+<p>You might think this will cause Vue to throw away the existing DOM and re-render the entire list - luckily, that is not the case. Vue implements some smart heuristics to maximize DOM element reuse, so replacing an array with another array containing overlapping objects is a very efficient operation.</p>
+<h3 id="Caveats"><a href="#Caveats" class="headerlink" title="Caveats"></a>Caveats</h3><p>Due to limitations in JavaScript, Vue <strong>cannot</strong> detect the following changes to an array:</p>
+<ol>
+<li>When you directly set an item with the index, e.g. <code>vm.items[indexOfItem] = newValue</code></li>
+<li>When you modify the length of the array, e.g. <code>vm.items.length = newLength</code></li>
+</ol>
+<p>For example:</p>
+<pre><code class="hljs js"><span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">new</span> Vue(&#123;
+  <span class="hljs-attr">data</span>: &#123;
+    <span class="hljs-attr">items</span>: [<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'c'</span>]
+  &#125;
+&#125;)
+vm.items[<span class="hljs-number">1</span>] = <span class="hljs-string">'x'</span> <span class="hljs-comment">// is NOT reactive</span>
+vm.items.length = <span class="hljs-number">2</span> <span class="hljs-comment">// is NOT reactive</span></code></pre>
+<p>To overcome caveat 1, both of the following will accomplish the same as <code>vm.items[indexOfItem] = newValue</code>, but will also trigger state updates in the reactivity system:</p>
+<pre><code class="hljs js"><span class="hljs-comment">// Vue.set</span>
+Vue.set(vm.items, indexOfItem, newValue)</code></pre>
+<pre><code class="hljs js"><span class="hljs-comment">// Array.prototype.splice</span>
+vm.items.splice(indexOfItem, <span class="hljs-number">1</span>, newValue)</code></pre>
+<p>You can also use the <a href="https://vuejs.org/v2/api/#vm-set" target="_blank" rel="noopener"><code>vm.$set</code></a> instance method, which is an alias for the global <code>Vue.set</code>:</p>
+<pre><code class="hljs js">vm.$<span class="hljs-keyword">set</span>(vm.items, indexOfItem, newValue)</code></pre>
+<p>To deal with caveat 2, you can use <code>splice</code>:</p>
+<pre><code class="hljs js">vm.items.splice(newLength)</code></pre>
+<h2 id="Object-Change-Detection-Caveats"><a href="#Object-Change-Detection-Caveats" class="headerlink" title="Object Change Detection Caveats"></a>Object Change Detection Caveats</h2><p>Again due to limitations of modern JavaScript, <strong>Vue cannot detect property addition or deletion</strong>. For example:</p>
+<pre><code class="hljs js"><span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">new</span> Vue(&#123;
+  <span class="hljs-attr">data</span>: &#123;
+    <span class="hljs-attr">a</span>: <span class="hljs-number">1</span>
+  &#125;
+&#125;)
+<span class="hljs-comment">// `vm.a` is now reactive</span>
+
+vm.b = <span class="hljs-number">2</span>
+<span class="hljs-comment">// `vm.b` is NOT reactive</span></code></pre>
+<p>Vue does not allow dynamically adding new root-level reactive properties to an already created instance. However, it’s possible to add reactive properties to a nested object using the <code>Vue.set(object, propertyName, value)</code> method. For example, given:</p>
+<pre><code class="hljs js"><span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">new</span> Vue(&#123;
+  <span class="hljs-attr">data</span>: &#123;
+    <span class="hljs-attr">userProfile</span>: &#123;
+      <span class="hljs-attr">name</span>: <span class="hljs-string">'Anika'</span>
+    &#125;
+  &#125;
+&#125;)</code></pre>
+<p>You could add a new <code>age</code> property to the nested <code>userProfile</code> object with:</p>
+<pre><code class="hljs js">Vue.set(vm.userProfile, <span class="hljs-string">'age'</span>, <span class="hljs-number">27</span>)</code></pre>
+<p>You can also use the <code>vm.$set</code> instance method, which is an alias for the global <code>Vue.set</code>:</p>
+<pre><code class="hljs js">vm.$<span class="hljs-keyword">set</span>(vm.userProfile, 'age', 27)</code></pre>
+<p>Sometimes you may want to assign a number of new properties to an existing object, for example using <code>Object.assign()</code> or <code>_.extend()</code>. In such cases, you should create a fresh object with properties from both objects. So instead of:</p>
+<pre><code class="hljs js"><span class="hljs-built_in">Object</span>.assign(vm.userProfile, &#123;
+  <span class="hljs-attr">age</span>: <span class="hljs-number">27</span>,
+  <span class="hljs-attr">favoriteColor</span>: <span class="hljs-string">'Vue Green'</span>
+&#125;)</code></pre>
+<p>You would add new, reactive properties with:</p>
+<pre><code class="hljs js">vm.userProfile = <span class="hljs-built_in">Object</span>.assign(&#123;&#125;, vm.userProfile, &#123;
+  <span class="hljs-attr">age</span>: <span class="hljs-number">27</span>,
+  <span class="hljs-attr">favoriteColor</span>: <span class="hljs-string">'Vue Green'</span>
+&#125;)</code></pre>
+<h2 id="Displaying-Filtered-Sorted-Results"><a href="#Displaying-Filtered-Sorted-Results" class="headerlink" title="Displaying Filtered/Sorted Results"></a>Displaying Filtered/Sorted Results</h2><p>Sometimes we want to display a filtered or sorted version of an array without actually mutating or resetting the original data. In this case, you can create a computed property that returns the filtered or sorted array.</p>
+<p>For example:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"n in evenNumbers"</span>&gt;</span>&#123;&#123; n &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></code></pre>
+<pre><code class="hljs js">data: &#123;
+  <span class="hljs-attr">numbers</span>: [ <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span> ]
+&#125;,
+<span class="hljs-attr">computed</span>: &#123;
+  <span class="hljs-attr">evenNumbers</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.numbers.filter(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">number</span>) </span>&#123;
+      <span class="hljs-keyword">return</span> number % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>
+    &#125;)
+  &#125;
+&#125;</code></pre>
+<p>In situations where computed properties are not feasible (e.g. inside nested <code>v-for</code> loops), you can use a method:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"n in even(numbers)"</span>&gt;</span>&#123;&#123; n &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></code></pre>
+<pre><code class="hljs js">data: &#123;
+  <span class="hljs-attr">numbers</span>: [ <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span> ]
+&#125;,
+<span class="hljs-attr">methods</span>: &#123;
+  <span class="hljs-attr">even</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">numbers</span>) </span>&#123;
+    <span class="hljs-keyword">return</span> numbers.filter(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">number</span>) </span>&#123;
+      <span class="hljs-keyword">return</span> number % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>
+    &#125;)
+  &#125;
+&#125;</code></pre>
+<h2 id="v-for-with-a-Range"><a href="#v-for-with-a-Range" class="headerlink" title="v-for with a Range"></a><code>v-for</code> with a Range</h2><p><code>v-for</code> can also take an integer. In this case it will repeat the template that many times.</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"n in 10"</span>&gt;</span>&#123;&#123; n &#125;&#125; <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<p>Result:</p>
+
+<div id="range" class="demo">
+  <span v-for="n in 10">{{ n }} </span>
+</div>
+<script>
+  new Vue({ el: '#range' })
+</script>
+
+<h2 id="v-for-on-a-lt-template-gt"><a href="#v-for-on-a-lt-template-gt" class="headerlink" title="v-for on a &lt;template&gt;"></a><code>v-for</code> on a <code>&lt;template&gt;</code></h2><p>Similar to template <code>v-if</code>, you can also use a <code>&lt;template&gt;</code> tag with <code>v-for</code> to render a block of multiple elements. For example:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"item in items"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>&#123;&#123; item.msg &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"divider"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"presentation"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+<h2 id="v-for-with-v-if"><a href="#v-for-with-v-if" class="headerlink" title="v-for with v-if"></a><code>v-for</code> with <code>v-if</code></h2><p class="tip">Note that it’s <strong>not</strong> recommended to use <code>v-if</code> and <code>v-for</code> together. Refer to <a href="/v2/style-guide/#Avoid-v-if-with-v-for-essential">style guide</a> for details.</p>
+
+<p>When they exist on the same node, <code>v-for</code> has a higher priority than <code>v-if</code>. That means the <code>v-if</code> will be run on each iteration of the loop separately. This can be useful when you want to render nodes for only <em>some</em> items, like below:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"todo in todos"</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"!todo.isComplete"</span>&gt;</span>
+  &#123;&#123; todo &#125;&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></code></pre>
+<p>The above only renders the todos that are not complete.</p>
+<p>If instead, your intent is to conditionally skip execution of the loop, you can place the <code>v-if</code> on a wrapper element (or <a href="conditional.html#Conditional-Groups-with-v-if-on-lt-template-gt"><code>&lt;template&gt;</code></a>). For example:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"todos.length"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"todo in todos"</span>&gt;</span>
+    &#123;&#123; todo &#125;&#125;
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">v-else</span>&gt;</span>No todos left!<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+<h2 id="v-for-with-a-Component"><a href="#v-for-with-a-Component" class="headerlink" title="v-for with a Component"></a><code>v-for</code> with a Component</h2><blockquote>
+<p>This section assumes knowledge of <a href="components.html">Components</a>. Feel free to skip it and come back later.</p>
+</blockquote>
+<p>You can directly use <code>v-for</code> on a custom component, like any normal element:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"item in items"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"item.id"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></code></pre>
+<blockquote>
+<p>In 2.2.0+, when using <code>v-for</code> with a component, a <a href="list.html#key"><code>key</code></a> is now required.</p>
+</blockquote>
+<p>However, this won’t automatically pass any data to the component, because components have isolated scopes of their own. In order to pass the iterated data into the component, we should also use props:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span>
+  <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(item, index) in items"</span>
+  <span class="hljs-attr">v-bind:item</span>=<span class="hljs-string">"item"</span>
+  <span class="hljs-attr">v-bind:index</span>=<span class="hljs-string">"index"</span>
+  <span class="hljs-attr">v-bind:key</span>=<span class="hljs-string">"item.id"</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></code></pre>
+<p>The reason for not automatically injecting <code>item</code> into the component is because that makes the component tightly coupled to how <code>v-for</code> works. Being explicit about where its data comes from makes the component reusable in other situations.</p>
+<p>Here’s a complete example of a simple todo list:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"todo-list-example"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">v-on:submit.prevent</span>=<span class="hljs-string">"addNewTodo"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"new-todo"</span>&gt;</span>Add a todo<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+      <span class="hljs-attr">v-model</span>=<span class="hljs-string">"newTodoText"</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">"new-todo"</span>
+      <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"E.g. Feed the cat"</span>
+    &gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Add<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>
+      <span class="hljs-attr">is</span>=<span class="hljs-string">"todo-item"</span>
+      <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(todo, index) in todos"</span>
+      <span class="hljs-attr">v-bind:key</span>=<span class="hljs-string">"todo.id"</span>
+      <span class="hljs-attr">v-bind:title</span>=<span class="hljs-string">"todo.title"</span>
+      <span class="hljs-attr">v-on:remove</span>=<span class="hljs-string">"todos.splice(index, 1)"</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<p class="tip">Note the <code>is=&quot;todo-item&quot;</code> attribute. This is necessary in DOM templates, because only an <code>&lt;li&gt;</code> element is valid inside a <code>&lt;ul&gt;</code>. It does the same thing as <code>&lt;todo-item&gt;</code>, but works around a potential browser parsing error. See <a href="components.html#DOM-Template-Parsing-Caveats">DOM Template Parsing Caveats</a> to learn more.</p>
+
+<pre><code class="hljs js">Vue.component(<span class="hljs-string">'todo-item'</span>, &#123;
+  <span class="hljs-attr">template</span>: <span class="hljs-string">'\
+    &lt;li&gt;\
+      &#123;&#123; title &#125;&#125;\
+      &lt;button v-on:click="$emit(\'remove\')"&gt;Remove&lt;/button&gt;\
+    &lt;/li&gt;\
+  '</span>,
+  <span class="hljs-attr">props</span>: [<span class="hljs-string">'title'</span>]
+&#125;)
+
+<span class="hljs-keyword">new</span> Vue(&#123;
+  <span class="hljs-attr">el</span>: <span class="hljs-string">'#todo-list-example'</span>,
+  <span class="hljs-attr">data</span>: &#123;
+    <span class="hljs-attr">newTodoText</span>: <span class="hljs-string">''</span>,
+    <span class="hljs-attr">todos</span>: [
+      &#123;
+        <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">title</span>: <span class="hljs-string">'Do the dishes'</span>,
+      &#125;,
+      &#123;
+        <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>,
+        <span class="hljs-attr">title</span>: <span class="hljs-string">'Take out the trash'</span>,
+      &#125;,
+      &#123;
+        <span class="hljs-attr">id</span>: <span class="hljs-number">3</span>,
+        <span class="hljs-attr">title</span>: <span class="hljs-string">'Mow the lawn'</span>
+      &#125;
+    ],
+    <span class="hljs-attr">nextTodoId</span>: <span class="hljs-number">4</span>
+  &#125;,
+  <span class="hljs-attr">methods</span>: &#123;
+    <span class="hljs-attr">addNewTodo</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+      <span class="hljs-keyword">this</span>.todos.push(&#123;
+        <span class="hljs-attr">id</span>: <span class="hljs-keyword">this</span>.nextTodoId++,
+        <span class="hljs-attr">title</span>: <span class="hljs-keyword">this</span>.newTodoText
+      &#125;)
+      <span class="hljs-keyword">this</span>.newTodoText = <span class="hljs-string">''</span>
+    &#125;
+  &#125;
+&#125;)</code></pre>
+
+<div id="todo-list-example" class="demo">
+  <form v-on:submit.prevent="addNewTodo">
+    <label for="new-todo">Add a todo</label>
+    <input v-model="newTodoText" id="new-todo" placeholder="E.g. Feed the cat">
+    <button>Add</button>
+  </form>
+  <ul>
+    <li is="todo-item" v-for="(todo, index) in todos" v-bind:key="todo.id" v-bind:title="todo.title" v-on:remove="todos.splice(index, 1)"></li>
+  </ul>
+</div>
+<script>
+Vue.component('todo-item', {
+  template: '\
+    <li>\
+      {{ title }}\
+      <button v-on:click="$emit(\'remove\')">Remove</button>\
+    </li>\
+  ',
+  props: ['title']
+})
+
+new Vue({
+  el: '#todo-list-example',
+  data: {
+    newTodoText: '',
+    todos: [
+      {
+        id: 1,
+        title: 'Do the dishes',
+      },
+      {
+        id: 2,
+        title: 'Take out the trash',
+      },
+      {
+        id: 3,
+        title: 'Mow the lawn'
+      }
+    ],
+    nextTodoId: 4
+  },
+  methods: {
+    addNewTodo: function () {
+      this.todos.push({
+        id: this.nextTodoId++,
+        title: this.newTodoText
+      })
+      this.newTodoText = ''
+    }
+  }
+})
+</script>
+
+
+  
+  
+    <div class="guide-links">
+      
+      
+        <span>← <a href="/tr.vuejs.org/v2/guide/conditional.html">Conditional Rendering</a></span>
+      
+      
+      
+        <span style="float: right;"><a href="/tr.vuejs.org/v2/guide/events.html">Event Handling</a> →</span>
+      
+    </div>
+  
+  <div class="footer">
+      <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+<div class="bsa-cpc"></div>
+<script>
+  (function(){
+    if(typeof _bsa !== 'undefined' && _bsa) {
+    _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+      target: '.bsa-cpc',
+      align: 'horizontal',
+      disable_css: 'true'
+    });
+      }
+  })();
+</script>
+
+    Caught a mistake or want to contribute to the documentation?
+    <a href="https://github.com/vuejs/vuejs.org/blob/master/src/v2/guide/list.md" target="_blank">
+      Edit this page on GitHub!
+    </a>
+  </div>
+</div>
+
+        
+      </div>
+      <script src="/tr.vuejs.org/js/smooth-scroll.min.js"></script>
+    
+
+    <!-- main custom script for sidebars, version selects etc. -->
+    <script src="/tr.vuejs.org/js/css.escape.js"></script>
+    <script src="/tr.vuejs.org/js/common.js"></script>
+
+    <!-- search -->
+    <link href="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/tr.vuejs.org/css/search.css">
+    <script src="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script>
+    <script>
+    [
+      '#search-query-nav',
+      '#search-query-sidebar',
+      '#search-query-menu'
+    ].forEach(function (selector) {
+      if (!document.querySelector(selector)) return
+      // search index defaults to v2
+      var match = window.location.pathname.match(/^\/(v\d+)/)
+      var version = match ? match[1] : 'v2'
+      docsearch({
+      appId: 'BH4D9OD16A',
+      apiKey: '85cc3221c9f23bfbaa4e3913dd7625ea',
+      indexName: 'vuejs',
+      inputSelector: selector,
+      algoliaOptions: { facetFilters: ["version:" + version] },
+      autocompleteOptions: { hint: false, appendTo: 'body'}
+      })
+    })
+    </script>
+
+    <!-- fastclick -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      FastClick.attach(document.body)
+    }, false)
+    </script>
+  </body>
+</html>

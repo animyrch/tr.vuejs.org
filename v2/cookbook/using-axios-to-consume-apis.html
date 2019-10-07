@@ -1,0 +1,677 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <title>Using Axios to Consume APIs — Vue.js</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Vue.js - Kademeli JavaScript Uygulama Çerçevesi">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="alternate" hreflang="x-default" href="https://vuejs.org/v2/cookbook/using-axios-to-consume-apis.html">
+    <link rel="alternate" hreflang="zh" href="https://cn.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html">
+    <link rel="alternate" hreflang="ja" href="https://jp.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html">
+    <link rel="alternate" hreflang="ru" href="https://ru.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html">
+    <link rel="alternate" hreflang="ko" href="https://kr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html">
+    <link rel="alternate" hreflang="pt-BR" href="https://br.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html">
+    <link rel="alternate" hreflang="fr" href="https://fr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Using Axios to Consume APIs — Vue.js">
+    <meta property="og:description" content="Vue.js - Kademeli JavaScript Uygulama Çerçevesi">
+    <meta property="og:image" content="https://vuejs.org//tr.vuejs.org/images/logo.png">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Using Axios to Consume APIs — Vue.js">
+    <meta name="twitter:description" content="Vue.js - Kademeli JavaScript Uygulama Çerçevesi">
+    <meta name="twitter:image" content="https://vuejs.org/images/logo.png">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/tr.vuejs.org/images/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/tr.vuejs.org/images/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/tr.vuejs.org/images/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/tr.vuejs.org/images/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/tr.vuejs.org/images/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/tr.vuejs.org/images/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/tr.vuejs.org/images/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/tr.vuejs.org/images/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/tr.vuejs.org/images/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/tr.vuejs.org/images/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/tr.vuejs.org/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/tr.vuejs.org/images/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/tr.vuejs.org/images/icons/favicon-16x16.png">
+    <meta name="msapplication-TileImage" content="/images/icons/ms-icon-144x144.png">
+    <link rel="icon" href="/tr.vuejs.org/images/logo.png" type="image/png">
+
+    <meta name="msapplication-TileColor" content="#4fc08d">
+    <meta name="theme-color" content="#4fc08d">
+
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <link rel="manifest" href="/manifest.json">
+
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Dosis:500&text=Vue.js" rel="stylesheet" type="text/css">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- main page styles -->
+    <link rel="stylesheet" href="/tr.vuejs.org/css/page.css">
+
+    <!-- this needs to be loaded before guide's inline scripts -->
+    <script src="/tr.vuejs.org/js/vue.js"></script>
+    <script>
+      Vue.config.productionTip = false
+      window.PAGE_TYPE = "cookbook"
+    </script>
+
+    <!-- ga -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-46852172-1', 'vuejs.org');
+      ga('send', 'pageview');
+    </script>
+
+    <!-- vimeo analytics -->
+    <script type="text/javascript" defer="defer" src="https://extend.vimeocdn.com/ga/72160148.js"></script>
+  </head>
+  <body class="docs">
+    <div id="mobile-bar">
+      <a class="menu-button"></a>
+      <a class="logo" href="/"></a>
+    </div>
+    <div id="header">
+  <a id="logo" href="/tr.vuejs.org/">
+    <img src="/tr.vuejs.org/images/logo.png" alt="vue logo">
+    <span>Vue.js</span>
+  </a>
+  <ul id="nav">
+    <li>
+  <form id="search-form">
+    <input type="text" id="search-query-nav" class="search-query st-default-search-input">
+  </form>
+</li>
+<li class="nav-dropdown-container learn">
+  <a class="nav-link current">Öğren</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Dokümantasyon</h4></li>
+    <li>
+      <ul>
+        <li><a href="/tr.vuejs.org/v2/guide/" class="nav-link">Kılavuz</a></li>
+        <li><a href="/tr.vuejs.org/v2/api/" class="nav-link">API</a></li>
+        <li><a href="/tr.vuejs.org/v2/style-guide/" class="nav-link">Stil Kılavuzu</a></li>
+        <li><a href="/tr.vuejs.org/v2/examples/" class="nav-link">Örnekler</a></li>
+        <li><a href="/tr.vuejs.org/v2/cookbook/" class="nav-link current">Dersler</a></li>
+      </ul>
+    </li>
+    <li><h4>Video Dersleri</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://www.vuemastery.com/courses/" class="nav-link" target="_blank">Vue Mastery</a></li>
+        <li><a href="https://vueschool.io/?friend=vuejs&utm_source=Vuejs.org&utm_medium=Link&utm_content=Navbar%20Dropdown" class="nav-link" target="_blank">Vue School</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container ecosystem">
+  <a class="nav-link">Ekosistem</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Yardım</h4></li>
+    <li><ul>
+      <li><a href="https://forum.vuejs.org/" class="nav-link" target="_blank">Forum</a></li>
+      <li><a href="https://chat.vuejs.org/" class="nav-link" target="_blank">Chat</a></li>
+      <li><a href="https://events.vuejs.org/meetups/" class="nav-link" target="_blank">Buluşmalar</a></li>
+    </ul></li>
+    <li><h4>Proje Araçları</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://github.com/vuejs/vue-devtools" class="nav-link" target="_blank">Devtools</a></li>
+        <li><a href="https://cli.vuejs.org/" class="nav-link" target="_blank">Vue CLI</a></li>
+        <li><a href="https://vue-loader.vuejs.org" class="nav-link" target="_blank">Vue Loader</a></li>
+      </ul>
+    </li>
+    <li><h4>Ana Kütüphaneler</h4></li>
+    <li><ul>
+      <li><a href="https://router.vuejs.org/" class="nav-link" target="_blank">Vue Router</a></li>
+      <li><a href="https://vuex.vuejs.org/" class="nav-link" target="_blank">Vuex</a></li>
+      <li><a href="https://ssr.vuejs.org/" class="nav-link" target="_blank">Vue Server Renderer</a></li>
+    </ul></li>
+    <li><h4>Son Gelişmeler</h4></li>
+    <li><ul>
+      <li><a href="https://news.vuejs.org" class="nav-link" target="_blank">Haftalık Haberler</a></li>
+      <li><a href="https://github.com/vuejs/vue/projects/6" class="nav-link" target="_blank">Gelecek Planları</a></li>
+      <li><a href="https://events.vuejs.org/" class="nav-link" target="_blank">Etkinlikler</a></li>
+      <li><a href="https://twitter.com/vuejs" class="nav-link" target="_blank">Twitter</a></li>
+      <li><a href="https://medium.com/the-vue-point" class="nav-link" target="_blank">Blog</a></li>
+      <li><a href="https://vuejobs.com/?ref=vuejs" class="nav-link" target="_blank">İş İmkanları</a></li>
+      <li><a href="https://dev.to/t/vue" class="nav-link" target="_blank">DEV Topluluğu</a></li>
+    </ul></li>
+    <li><h4>Kaynak Listeleri</h4></li>
+    <li><ul>
+      <li><a href="https://github.com/vuejs" class="nav-link" target="_blank">Resmi Kod Kaynakları</a></li>
+      <li><a href="https://curated.vuejs.org/" class="nav-link" target="_blank">Vue Bağlantılı Projeler</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" class="nav-link" target="_blank">Awesome Vue</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li>
+  <a href="/tr.vuejs.org/v2/guide/team.html" class="nav-link team">Team</a>
+</li>
+<li class="nav-dropdown-container support-vue">
+  <a href="/support-vuejs/" class="nav-link">Vue'yi Destekle</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><ul>
+      <li><a href="/support-vuejs/#One-time-Donations" class="nav-link">Tek Seferlik Bağış</a></li>
+      <li><a href="/support-vuejs/#Recurring-Pledges" class="nav-link">Tekrarlı Ödeme</a></li>
+      <li><a href="https://vue.threadless.com" target="_blank" class="nav-link">T-Shirt Mağazası</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container language">
+  <a class="nav-link">Diğer Diller</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">English</a></li>
+    <li><a href="https://cn.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://jp.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">日本語</a></li>
+    <li><a href="https://ru.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Русский</a></li>
+    <li><a href="https://kr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">한국어</a></li>
+    <li><a href="https://br.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Português</a></li>
+    <li><a href="https://fr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Français</a></li>
+    <li><a href="https://vi.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Tiếng Việt</a></li>
+    <li><a href="https://animyrch.github.io/tr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Türkçe</a></li>
+  </ul>
+</li>
+
+
+  </ul>
+</div>
+
+    
+      <div id="main" class="fix-sidebar">
+        
+          
+  <div class="sidebar">
+  <div class="sidebar-inner">
+    <ul class="main-menu">
+      <li>
+  <form id="search-form">
+    <input type="text" id="search-query-sidebar" class="search-query st-default-search-input">
+  </form>
+</li>
+<li class="nav-dropdown-container learn">
+  <a class="nav-link current">Öğren</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Dokümantasyon</h4></li>
+    <li>
+      <ul>
+        <li><a href="/tr.vuejs.org/v2/guide/" class="nav-link">Kılavuz</a></li>
+        <li><a href="/tr.vuejs.org/v2/api/" class="nav-link">API</a></li>
+        <li><a href="/tr.vuejs.org/v2/style-guide/" class="nav-link">Stil Kılavuzu</a></li>
+        <li><a href="/tr.vuejs.org/v2/examples/" class="nav-link">Örnekler</a></li>
+        <li><a href="/tr.vuejs.org/v2/cookbook/" class="nav-link current">Dersler</a></li>
+      </ul>
+    </li>
+    <li><h4>Video Dersleri</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://www.vuemastery.com/courses/" class="nav-link" target="_blank">Vue Mastery</a></li>
+        <li><a href="https://vueschool.io/?friend=vuejs&utm_source=Vuejs.org&utm_medium=Link&utm_content=Navbar%20Dropdown" class="nav-link" target="_blank">Vue School</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container ecosystem">
+  <a class="nav-link">Ekosistem</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Yardım</h4></li>
+    <li><ul>
+      <li><a href="https://forum.vuejs.org/" class="nav-link" target="_blank">Forum</a></li>
+      <li><a href="https://chat.vuejs.org/" class="nav-link" target="_blank">Chat</a></li>
+      <li><a href="https://events.vuejs.org/meetups/" class="nav-link" target="_blank">Buluşmalar</a></li>
+    </ul></li>
+    <li><h4>Proje Araçları</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://github.com/vuejs/vue-devtools" class="nav-link" target="_blank">Devtools</a></li>
+        <li><a href="https://cli.vuejs.org/" class="nav-link" target="_blank">Vue CLI</a></li>
+        <li><a href="https://vue-loader.vuejs.org" class="nav-link" target="_blank">Vue Loader</a></li>
+      </ul>
+    </li>
+    <li><h4>Ana Kütüphaneler</h4></li>
+    <li><ul>
+      <li><a href="https://router.vuejs.org/" class="nav-link" target="_blank">Vue Router</a></li>
+      <li><a href="https://vuex.vuejs.org/" class="nav-link" target="_blank">Vuex</a></li>
+      <li><a href="https://ssr.vuejs.org/" class="nav-link" target="_blank">Vue Server Renderer</a></li>
+    </ul></li>
+    <li><h4>Son Gelişmeler</h4></li>
+    <li><ul>
+      <li><a href="https://news.vuejs.org" class="nav-link" target="_blank">Haftalık Haberler</a></li>
+      <li><a href="https://github.com/vuejs/vue/projects/6" class="nav-link" target="_blank">Gelecek Planları</a></li>
+      <li><a href="https://events.vuejs.org/" class="nav-link" target="_blank">Etkinlikler</a></li>
+      <li><a href="https://twitter.com/vuejs" class="nav-link" target="_blank">Twitter</a></li>
+      <li><a href="https://medium.com/the-vue-point" class="nav-link" target="_blank">Blog</a></li>
+      <li><a href="https://vuejobs.com/?ref=vuejs" class="nav-link" target="_blank">İş İmkanları</a></li>
+      <li><a href="https://dev.to/t/vue" class="nav-link" target="_blank">DEV Topluluğu</a></li>
+    </ul></li>
+    <li><h4>Kaynak Listeleri</h4></li>
+    <li><ul>
+      <li><a href="https://github.com/vuejs" class="nav-link" target="_blank">Resmi Kod Kaynakları</a></li>
+      <li><a href="https://curated.vuejs.org/" class="nav-link" target="_blank">Vue Bağlantılı Projeler</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" class="nav-link" target="_blank">Awesome Vue</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li>
+  <a href="/tr.vuejs.org/v2/guide/team.html" class="nav-link team">Team</a>
+</li>
+<li class="nav-dropdown-container support-vue">
+  <a href="/support-vuejs/" class="nav-link">Vue'yi Destekle</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><ul>
+      <li><a href="/support-vuejs/#One-time-Donations" class="nav-link">Tek Seferlik Bağış</a></li>
+      <li><a href="/support-vuejs/#Recurring-Pledges" class="nav-link">Tekrarlı Ödeme</a></li>
+      <li><a href="https://vue.threadless.com" target="_blank" class="nav-link">T-Shirt Mağazası</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container language">
+  <a class="nav-link">Diğer Diller</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">English</a></li>
+    <li><a href="https://cn.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://jp.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">日本語</a></li>
+    <li><a href="https://ru.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Русский</a></li>
+    <li><a href="https://kr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">한국어</a></li>
+    <li><a href="https://br.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Português</a></li>
+    <li><a href="https://fr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Français</a></li>
+    <li><a href="https://vi.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Tiếng Việt</a></li>
+    <li><a href="https://animyrch.github.io/tr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="nav-link" target="_blank">Türkçe</a></li>
+  </ul>
+</li>
+
+
+    </ul>
+    <div class="list">
+      <div id="sidebar-sponsors-special">
+  <div class="main-sponsor">
+    <span>Özel Sponsor</span>
+    <div>
+    <a href="https://stdlib.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/stdlib.png" alt>
+    </a>
+    </div>
+  </div>
+</div>
+
+<div id="sidebar-sponsors-platinum-left">
+  <div class="main-sponsor">
+    <span>Platin Sponsorlar</span>
+    <div>
+    <a href="https://moduscreate.com/?utm_source=Vue&utm_medium=Partnership&utm_campaign=VueShip" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/modus.png" alt="Modus">
+    </a>
+    <a href="https://bit.dev/?utm_source=vue&utm_medium=vue&utm_campaign=vue&utm_term=vue&utm_content=vue" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/bit.png" alt="Bit">
+    </a>
+    <a href="http://tooltwist.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/tooltwist.png" alt="Tooltwist">
+    </a>
+    <a href="https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vueschool.png" alt="VueSchool">
+    </a>
+    <a href="https://vehikl.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vehikl.png" alt="Vehikl">
+    </a>
+    <a href="https://www.nativescript.org/vue?utm_source=vue-js-org&utm_medium=website&utm_campaign=nativescript-awareness" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/nativescript.png" alt="NativeScript">
+    </a>
+    </div>
+  </div>
+  <a class="become-backer" href="/tr.vuejs.org/support-vuejs">
+    Siz de sponsor olun
+  </a>
+</div>
+
+
+      
+        <h2>
+          
+          Cookbook<sup class="beta">beta</sup>
+          
+        </h2>
+        <ul class="menu-root">
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/index.html" class="sidebar-link">Introduction</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/adding-instance-properties.html" class="sidebar-link">Adding Instance Properties</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/form-validation.html" class="sidebar-link">Form Validation</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/editable-svg-icons.html" class="sidebar-link">Editable SVG Icon Systems</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/serverless-blog.html" class="sidebar-link">Create a CMS-Powered Blog</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/unit-testing-vue-components.html" class="sidebar-link">Unit Testing Vue Components</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/creating-custom-scroll-directives.html" class="sidebar-link">Creating Custom Scroll Directives</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/debugging-in-vscode.html" class="sidebar-link">Debugging in VS Code</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="sidebar-link current">Using Axios to Consume APIs</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/avoiding-memory-leaks.html" class="sidebar-link">Avoiding Memory Leaks</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/client-side-storage.html" class="sidebar-link">Client-Side Storage</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/packaging-sfc-for-npm.html" class="sidebar-link">Packaging Vue Components for npm</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/dockerize-vuejs-app.html" class="sidebar-link">Dockerize Vue.js App</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/practical-use-of-scoped-slots.html" class="sidebar-link">Practical use of scoped slots with GoogleMaps</a>
+    </li>
+  
+</ul>
+
+      
+    </div>
+  </div>
+</div>
+
+<div id="sidebar-sponsors-platinum-right">
+  <div class="main-sponsor">
+    <span>Platin Sponsorlar</span>
+    <div>
+    <a href="https://moduscreate.com/?utm_source=Vue&utm_medium=Partnership&utm_campaign=VueShip" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/modus.png" alt="Modus">
+    </a>
+    <a href="https://bit.dev/?utm_source=vue&utm_medium=vue&utm_campaign=vue&utm_term=vue&utm_content=vue" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/bit.png" alt="Bit">
+    </a>
+    <a href="http://tooltwist.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/tooltwist.png" alt="Tooltwist">
+    </a>
+    <a href="https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vueschool.png" alt="VueSchool">
+    </a>
+    <a href="https://vehikl.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vehikl.png" alt="Vehikl">
+    </a>
+    <a href="https://www.nativescript.org/vue?utm_source=vue-js-org&utm_medium=website&utm_campaign=nativescript-awareness" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/nativescript.png" alt="NativeScript">
+    </a>
+    </div>
+  </div>
+  <a class="become-backer" href="/tr.vuejs.org/support-vuejs">
+    Siz de sponsor olun
+  </a>
+</div>
+
+
+
+<div class="content cookbook with-sidebar ">
+  
+    
+      <div id="ad">
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIK2QU&placement=vuejsorg" id="_carbonads_js">
+  </script>
+</div>
+
+    
+  
+  
+    <h1>Using Axios to Consume APIs</h1>
+  
+  
+    <h2 id="Base-Example"><a href="#Base-Example" class="headerlink" title="Base Example"></a>Base Example</h2><p>There are many times when building application for the web that you may want to consume and display data from an API. There are several ways to do so, but a very popular approach is to use <a href="https://github.com/axios/axios" target="_blank" rel="noopener">axios</a>, a promise-based HTTP client.</p>
+<p>In this exercise, we’ll use the <a href="https://www.coindesk.com/api/" target="_blank" rel="noopener">CoinDesk API</a> to walk through displaying Bitcoin prices, updated every minute. First, we’d install axios with either npm/yarn or through a CDN link.</p>
+<p>There are a number of ways we can request information from the API, but it’s nice to first find out what the shape of the data looks like, in order to know what to display. In order to do so, we’ll make a call to the API endpoint and output it so we can see it. We can see in the CoinDesk API documentation, that this call will be made to <code>https://api.coindesk.com/v1/bpi/currentprice.json</code>. So first, we’ll create a data property that will eventually house our information, and we’ll retrieve the data and assign it using the <code>mounted</code> lifecycle hook:</p>
+<pre><code class="hljs js"><span class="hljs-keyword">new</span> Vue(&#123;
+  <span class="hljs-attr">el</span>: <span class="hljs-string">'#app'</span>,
+  data () &#123;
+    <span class="hljs-keyword">return</span> &#123;
+      <span class="hljs-attr">info</span>: <span class="hljs-literal">null</span>
+    &#125;
+  &#125;,
+  mounted () &#123;
+    axios
+      .get(<span class="hljs-string">'https://api.coindesk.com/v1/bpi/currentprice.json'</span>)
+      .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> (<span class="hljs-keyword">this</span>.info = response))
+  &#125;
+&#125;)</code></pre>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"app"</span>&gt;</span>
+  &#123;&#123; info &#125;&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<p>And what we get is this:</p>
+<p></p><p data-height="350" data-theme-id="32763" data-slug-hash="80043dfdb7b90f138f5585ade1a5286f" data-default-tab="result" data-user="Vue" data-embed-version="2" data-pen-title="First Step Axios and Vue" class="codepen">See the Pen <a href="https://codepen.io/team/Vue/pen/80043dfdb7b90f138f5585ade1a5286f/" target="_blank" rel="noopener">First Step Axios and Vue</a> by Vue (<a href="https://codepen.io/Vue" target="_blank" rel="noopener">@Vue</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>Excellent! We’ve got some data. But it looks pretty messy right now so let’s display it properly and add some error handling in case things aren’t working as expected or it takes longer than we thought to get the information.</p>
+<h2 id="Real-World-Example-Working-with-the-Data"><a href="#Real-World-Example-Working-with-the-Data" class="headerlink" title="Real-World Example: Working with the Data"></a>Real-World Example: Working with the Data</h2><h3 id="Displaying-Data-from-an-API"><a href="#Displaying-Data-from-an-API" class="headerlink" title="Displaying Data from an API"></a>Displaying Data from an API</h3><p>It’s pretty typical that the information we’ll need is within the response, and we’ll have to traverse what we’ve just stored to access it properly. In our case, we can see that the price information we need lives in <code>response.data.bpi</code>. If we use this instead, our output is as follows:</p>
+<pre><code class="hljs js">axios
+  .get(<span class="hljs-string">'https://api.coindesk.com/v1/bpi/currentprice.json'</span>)
+  .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> (<span class="hljs-keyword">this</span>.info = response.data.bpi))</code></pre>
+<p></p><p data-height="200" data-theme-id="32763" data-slug-hash="6100b10f1b4ac2961208643560ba7d11" data-default-tab="result" data-user="Vue" data-embed-version="2" data-pen-title="Second Step Axios and Vue" class="codepen">See the Pen <a href="https://codepen.io/team/Vue/pen/6100b10f1b4ac2961208643560ba7d11/" target="_blank" rel="noopener">Second Step Axios and Vue</a> by Vue (<a href="https://codepen.io/Vue" target="_blank" rel="noopener">@Vue</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>This is a lot easier for us to display, so we can now update our HTML to display only the information we need from the data we’ve received, and we’ll create a <a href="../api/#Vue-filter">filter</a> to make sure that the decimal is in the appropriate place as well.</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"app"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Bitcoin Price Index<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>
+    <span class="hljs-attr">v-for</span>=<span class="hljs-string">"currency in info"</span>
+    <span class="hljs-attr">class</span>=<span class="hljs-string">"currency"</span>
+  &gt;</span>
+    &#123;&#123; currency.description &#125;&#125;:
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"lighten"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-html</span>=<span class="hljs-string">"currency.symbol"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>&#123;&#123; currency.rate_float | currencydecimal &#125;&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<pre><code class="hljs js">filters: &#123;
+  currencydecimal (value) &#123;
+    <span class="hljs-keyword">return</span> value.toFixed(<span class="hljs-number">2</span>)
+  &#125;
+&#125;,</code></pre>
+<p></p><p data-height="300" data-theme-id="32763" data-slug-hash="9d59319c09eaccfaf35d9e9f11990f0f" data-default-tab="result" data-user="Vue" data-embed-version="2" data-pen-title="Third Step Axios and Vue" class="codepen">See the Pen <a href="https://codepen.io/team/Vue/pen/9d59319c09eaccfaf35d9e9f11990f0f/" target="_blank" rel="noopener">Third Step Axios and Vue</a> by Vue (<a href="https://codepen.io/Vue" target="_blank" rel="noopener">@Vue</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h3 id="Dealing-with-Errors"><a href="#Dealing-with-Errors" class="headerlink" title="Dealing with Errors"></a>Dealing with Errors</h3><p>There are times when we might not get the data we need from the API. There are several reasons that our axios call might fail, including but not limited to:</p>
+<ul>
+<li>The API is down.</li>
+<li>The request was made incorrectly.</li>
+<li>The API isn’t giving us the information in the format that we anticipated.</li>
+</ul>
+<p>When making this request, we should be checking for just such circumstances, and giving ourselves information in every case so we know how to handle the problem. In an axios call, we’ll do so by using <code>catch</code>.</p>
+<pre><code class="hljs js">axios
+  .get(<span class="hljs-string">'https://api.coindesk.com/v1/bpi/currentprice.json'</span>)
+  .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> (<span class="hljs-keyword">this</span>.info = response.data.bpi))
+  .catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(error))</code></pre>
+<p>This will let us know if something failed during the API request, but what if the data is mangled or the API is down? Right now the user will just see nothing. We might want to build a loader for this case, and then tell the user if we’re not able to get the data at all.</p>
+<pre><code class="hljs js"><span class="hljs-keyword">new</span> Vue(&#123;
+  <span class="hljs-attr">el</span>: <span class="hljs-string">'#app'</span>,
+  data () &#123;
+    <span class="hljs-keyword">return</span> &#123;
+      <span class="hljs-attr">info</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">loading</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">errored</span>: <span class="hljs-literal">false</span>
+    &#125;
+  &#125;,
+  <span class="hljs-attr">filters</span>: &#123;
+    currencydecimal (value) &#123;
+      <span class="hljs-keyword">return</span> value.toFixed(<span class="hljs-number">2</span>)
+    &#125;
+  &#125;,
+  mounted () &#123;
+    axios
+      .get(<span class="hljs-string">'https://api.coindesk.com/v1/bpi/currentprice.json'</span>)
+      .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> &#123;
+        <span class="hljs-keyword">this</span>.info = response.data.bpi
+      &#125;)
+      .catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> &#123;
+        <span class="hljs-built_in">console</span>.log(error)
+        <span class="hljs-keyword">this</span>.errored = <span class="hljs-literal">true</span>
+      &#125;)
+      .finally(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">this</span>.loading = <span class="hljs-literal">false</span>)
+  &#125;
+&#125;)</code></pre>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"app"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Bitcoin Price Index<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"errored"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>We're sorry, we're not able to retrieve this information at the moment, please try back later<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">v-else</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"loading"</span>&gt;</span>Loading...<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>
+      <span class="hljs-attr">v-else</span>
+      <span class="hljs-attr">v-for</span>=<span class="hljs-string">"currency in info"</span>
+      <span class="hljs-attr">class</span>=<span class="hljs-string">"currency"</span>
+    &gt;</span>
+      &#123;&#123; currency.description &#125;&#125;:
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"lighten"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-html</span>=<span class="hljs-string">"currency.symbol"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>&#123;&#123; currency.rate_float | currencydecimal &#125;&#125;
+      <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<p>You can hit the rerun button on this pen to see the loading status briefly while we gather data from the API:</p>
+<p></p><p data-height="300" data-theme-id="32763" data-slug-hash="6c01922c9af3883890fd7393e8147ec4" data-default-tab="result" data-user="Vue" data-embed-version="2" data-pen-title="Fourth Step Axios and Vue" class="codepen">See the Pen <a href="https://codepen.io/team/Vue/pen/6c01922c9af3883890fd7393e8147ec4/" target="_blank" rel="noopener">Fourth Step Axios and Vue</a> by Vue (<a href="https://codepen.io/Vue" target="_blank" rel="noopener">@Vue</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>This can be even further improved with the use of components for different sections and more distinct error reporting, depending on the API you’re using and the complexity of your application.</p>
+<h2 id="Alternative-Patterns"><a href="#Alternative-Patterns" class="headerlink" title="Alternative Patterns"></a>Alternative Patterns</h2><h3 id="Fetch-API"><a href="#Fetch-API" class="headerlink" title="Fetch API"></a>Fetch API</h3><p>The <a href="https://developers.google.com/web/updates/2015/03/introduction-to-fetch" target="_blank" rel="noopener">Fetch API</a> is a powerful native API for these types of requests. You may have heard that one of the benefits of the Fetch API is that you don’t need to load an external resource in order to use it, which is true! Except… that it’s not fully supported yet, so you will still need to use a polyfill. There are also some gotchas when working with this API, which is why many prefer to use axios for now. This may very well change in the future though.</p>
+<p>If you’re interested in using the Fetch API, there are some <a href="https://scotch.io/@bedakb/lets-build-type-ahead-component-with-vuejs-2-and-fetch-api" target="_blank" rel="noopener">very good articles</a> explaining how to do so.</p>
+<h2 id="Wrapping-Up"><a href="#Wrapping-Up" class="headerlink" title="Wrapping Up"></a>Wrapping Up</h2><p>There are many ways to work with Vue and axios beyond consuming and displaying an API. You can also communicate with Serverless Functions, post/edit/delete from an API where you have write access, and many other benefits. Due to the straightforward integration of these two libraries, it’s become a very common choice for developers who need to integrate HTTP clients into their workflow.</p>
+
+  
+  
+  <div class="footer">
+      <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+<div class="bsa-cpc"></div>
+<script>
+  (function(){
+    if(typeof _bsa !== 'undefined' && _bsa) {
+    _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+      target: '.bsa-cpc',
+      align: 'horizontal',
+      disable_css: 'true'
+    });
+      }
+  })();
+</script>
+
+    Caught a mistake or want to contribute to the documentation?
+    <a href="https://github.com/vuejs/vuejs.org/blob/master/src/v2/cookbook/using-axios-to-consume-apis.md" target="_blank">
+      Edit this page on GitHub!
+    </a>
+  </div>
+</div>
+
+        
+      </div>
+      <script src="/tr.vuejs.org/js/smooth-scroll.min.js"></script>
+    
+
+    <!-- main custom script for sidebars, version selects etc. -->
+    <script src="/tr.vuejs.org/js/css.escape.js"></script>
+    <script src="/tr.vuejs.org/js/common.js"></script>
+
+    <!-- search -->
+    <link href="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/tr.vuejs.org/css/search.css">
+    <script src="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script>
+    <script>
+    [
+      '#search-query-nav',
+      '#search-query-sidebar',
+      '#search-query-menu'
+    ].forEach(function (selector) {
+      if (!document.querySelector(selector)) return
+      // search index defaults to v2
+      var match = window.location.pathname.match(/^\/(v\d+)/)
+      var version = match ? match[1] : 'v2'
+      docsearch({
+      appId: 'BH4D9OD16A',
+      apiKey: '85cc3221c9f23bfbaa4e3913dd7625ea',
+      indexName: 'vuejs',
+      inputSelector: selector,
+      algoliaOptions: { facetFilters: ["version:" + version] },
+      autocompleteOptions: { hint: false, appendTo: 'body'}
+      })
+    })
+    </script>
+
+    <!-- fastclick -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      FastClick.attach(document.body)
+    }, false)
+    </script>
+  </body>
+</html>

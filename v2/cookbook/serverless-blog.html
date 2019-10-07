@@ -1,0 +1,782 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <title>Create a CMS-Powered Blog — Vue.js</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Vue.js - Kademeli JavaScript Uygulama Çerçevesi">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="alternate" hreflang="x-default" href="https://vuejs.org/v2/cookbook/serverless-blog.html">
+    <link rel="alternate" hreflang="zh" href="https://cn.vuejs.org/v2/cookbook/serverless-blog.html">
+    <link rel="alternate" hreflang="ja" href="https://jp.vuejs.org/v2/cookbook/serverless-blog.html">
+    <link rel="alternate" hreflang="ru" href="https://ru.vuejs.org/v2/cookbook/serverless-blog.html">
+    <link rel="alternate" hreflang="ko" href="https://kr.vuejs.org/v2/cookbook/serverless-blog.html">
+    <link rel="alternate" hreflang="pt-BR" href="https://br.vuejs.org/v2/cookbook/serverless-blog.html">
+    <link rel="alternate" hreflang="fr" href="https://fr.vuejs.org/v2/cookbook/serverless-blog.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Create a CMS-Powered Blog — Vue.js">
+    <meta property="og:description" content="Vue.js - Kademeli JavaScript Uygulama Çerçevesi">
+    <meta property="og:image" content="https://vuejs.org//tr.vuejs.org/images/logo.png">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Create a CMS-Powered Blog — Vue.js">
+    <meta name="twitter:description" content="Vue.js - Kademeli JavaScript Uygulama Çerçevesi">
+    <meta name="twitter:image" content="https://vuejs.org/images/logo.png">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/tr.vuejs.org/images/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/tr.vuejs.org/images/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/tr.vuejs.org/images/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/tr.vuejs.org/images/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/tr.vuejs.org/images/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/tr.vuejs.org/images/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/tr.vuejs.org/images/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/tr.vuejs.org/images/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/tr.vuejs.org/images/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/tr.vuejs.org/images/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/tr.vuejs.org/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/tr.vuejs.org/images/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/tr.vuejs.org/images/icons/favicon-16x16.png">
+    <meta name="msapplication-TileImage" content="/images/icons/ms-icon-144x144.png">
+    <link rel="icon" href="/tr.vuejs.org/images/logo.png" type="image/png">
+
+    <meta name="msapplication-TileColor" content="#4fc08d">
+    <meta name="theme-color" content="#4fc08d">
+
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <link rel="manifest" href="/manifest.json">
+
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Dosis:500&text=Vue.js" rel="stylesheet" type="text/css">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- main page styles -->
+    <link rel="stylesheet" href="/tr.vuejs.org/css/page.css">
+
+    <!-- this needs to be loaded before guide's inline scripts -->
+    <script src="/tr.vuejs.org/js/vue.js"></script>
+    <script>
+      Vue.config.productionTip = false
+      window.PAGE_TYPE = "cookbook"
+    </script>
+
+    <!-- ga -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-46852172-1', 'vuejs.org');
+      ga('send', 'pageview');
+    </script>
+
+    <!-- vimeo analytics -->
+    <script type="text/javascript" defer="defer" src="https://extend.vimeocdn.com/ga/72160148.js"></script>
+  </head>
+  <body class="docs">
+    <div id="mobile-bar">
+      <a class="menu-button"></a>
+      <a class="logo" href="/"></a>
+    </div>
+    <div id="header">
+  <a id="logo" href="/tr.vuejs.org/">
+    <img src="/tr.vuejs.org/images/logo.png" alt="vue logo">
+    <span>Vue.js</span>
+  </a>
+  <ul id="nav">
+    <li>
+  <form id="search-form">
+    <input type="text" id="search-query-nav" class="search-query st-default-search-input">
+  </form>
+</li>
+<li class="nav-dropdown-container learn">
+  <a class="nav-link current">Öğren</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Dokümantasyon</h4></li>
+    <li>
+      <ul>
+        <li><a href="/tr.vuejs.org/v2/guide/" class="nav-link">Kılavuz</a></li>
+        <li><a href="/tr.vuejs.org/v2/api/" class="nav-link">API</a></li>
+        <li><a href="/tr.vuejs.org/v2/style-guide/" class="nav-link">Stil Kılavuzu</a></li>
+        <li><a href="/tr.vuejs.org/v2/examples/" class="nav-link">Örnekler</a></li>
+        <li><a href="/tr.vuejs.org/v2/cookbook/" class="nav-link current">Dersler</a></li>
+      </ul>
+    </li>
+    <li><h4>Video Dersleri</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://www.vuemastery.com/courses/" class="nav-link" target="_blank">Vue Mastery</a></li>
+        <li><a href="https://vueschool.io/?friend=vuejs&utm_source=Vuejs.org&utm_medium=Link&utm_content=Navbar%20Dropdown" class="nav-link" target="_blank">Vue School</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container ecosystem">
+  <a class="nav-link">Ekosistem</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Yardım</h4></li>
+    <li><ul>
+      <li><a href="https://forum.vuejs.org/" class="nav-link" target="_blank">Forum</a></li>
+      <li><a href="https://chat.vuejs.org/" class="nav-link" target="_blank">Chat</a></li>
+      <li><a href="https://events.vuejs.org/meetups/" class="nav-link" target="_blank">Buluşmalar</a></li>
+    </ul></li>
+    <li><h4>Proje Araçları</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://github.com/vuejs/vue-devtools" class="nav-link" target="_blank">Devtools</a></li>
+        <li><a href="https://cli.vuejs.org/" class="nav-link" target="_blank">Vue CLI</a></li>
+        <li><a href="https://vue-loader.vuejs.org" class="nav-link" target="_blank">Vue Loader</a></li>
+      </ul>
+    </li>
+    <li><h4>Ana Kütüphaneler</h4></li>
+    <li><ul>
+      <li><a href="https://router.vuejs.org/" class="nav-link" target="_blank">Vue Router</a></li>
+      <li><a href="https://vuex.vuejs.org/" class="nav-link" target="_blank">Vuex</a></li>
+      <li><a href="https://ssr.vuejs.org/" class="nav-link" target="_blank">Vue Server Renderer</a></li>
+    </ul></li>
+    <li><h4>Son Gelişmeler</h4></li>
+    <li><ul>
+      <li><a href="https://news.vuejs.org" class="nav-link" target="_blank">Haftalık Haberler</a></li>
+      <li><a href="https://github.com/vuejs/vue/projects/6" class="nav-link" target="_blank">Gelecek Planları</a></li>
+      <li><a href="https://events.vuejs.org/" class="nav-link" target="_blank">Etkinlikler</a></li>
+      <li><a href="https://twitter.com/vuejs" class="nav-link" target="_blank">Twitter</a></li>
+      <li><a href="https://medium.com/the-vue-point" class="nav-link" target="_blank">Blog</a></li>
+      <li><a href="https://vuejobs.com/?ref=vuejs" class="nav-link" target="_blank">İş İmkanları</a></li>
+      <li><a href="https://dev.to/t/vue" class="nav-link" target="_blank">DEV Topluluğu</a></li>
+    </ul></li>
+    <li><h4>Kaynak Listeleri</h4></li>
+    <li><ul>
+      <li><a href="https://github.com/vuejs" class="nav-link" target="_blank">Resmi Kod Kaynakları</a></li>
+      <li><a href="https://curated.vuejs.org/" class="nav-link" target="_blank">Vue Bağlantılı Projeler</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" class="nav-link" target="_blank">Awesome Vue</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li>
+  <a href="/tr.vuejs.org/v2/guide/team.html" class="nav-link team">Team</a>
+</li>
+<li class="nav-dropdown-container support-vue">
+  <a href="/support-vuejs/" class="nav-link">Vue'yi Destekle</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><ul>
+      <li><a href="/support-vuejs/#One-time-Donations" class="nav-link">Tek Seferlik Bağış</a></li>
+      <li><a href="/support-vuejs/#Recurring-Pledges" class="nav-link">Tekrarlı Ödeme</a></li>
+      <li><a href="https://vue.threadless.com" target="_blank" class="nav-link">T-Shirt Mağazası</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container language">
+  <a class="nav-link">Diğer Diller</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">English</a></li>
+    <li><a href="https://cn.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://jp.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">日本語</a></li>
+    <li><a href="https://ru.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Русский</a></li>
+    <li><a href="https://kr.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">한국어</a></li>
+    <li><a href="https://br.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Português</a></li>
+    <li><a href="https://fr.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Français</a></li>
+    <li><a href="https://vi.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Tiếng Việt</a></li>
+    <li><a href="https://animyrch.github.io/tr.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Türkçe</a></li>
+  </ul>
+</li>
+
+
+  </ul>
+</div>
+
+    
+      <div id="main" class="fix-sidebar">
+        
+          
+  <div class="sidebar">
+  <div class="sidebar-inner">
+    <ul class="main-menu">
+      <li>
+  <form id="search-form">
+    <input type="text" id="search-query-sidebar" class="search-query st-default-search-input">
+  </form>
+</li>
+<li class="nav-dropdown-container learn">
+  <a class="nav-link current">Öğren</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Dokümantasyon</h4></li>
+    <li>
+      <ul>
+        <li><a href="/tr.vuejs.org/v2/guide/" class="nav-link">Kılavuz</a></li>
+        <li><a href="/tr.vuejs.org/v2/api/" class="nav-link">API</a></li>
+        <li><a href="/tr.vuejs.org/v2/style-guide/" class="nav-link">Stil Kılavuzu</a></li>
+        <li><a href="/tr.vuejs.org/v2/examples/" class="nav-link">Örnekler</a></li>
+        <li><a href="/tr.vuejs.org/v2/cookbook/" class="nav-link current">Dersler</a></li>
+      </ul>
+    </li>
+    <li><h4>Video Dersleri</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://www.vuemastery.com/courses/" class="nav-link" target="_blank">Vue Mastery</a></li>
+        <li><a href="https://vueschool.io/?friend=vuejs&utm_source=Vuejs.org&utm_medium=Link&utm_content=Navbar%20Dropdown" class="nav-link" target="_blank">Vue School</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container ecosystem">
+  <a class="nav-link">Ekosistem</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><h4>Yardım</h4></li>
+    <li><ul>
+      <li><a href="https://forum.vuejs.org/" class="nav-link" target="_blank">Forum</a></li>
+      <li><a href="https://chat.vuejs.org/" class="nav-link" target="_blank">Chat</a></li>
+      <li><a href="https://events.vuejs.org/meetups/" class="nav-link" target="_blank">Buluşmalar</a></li>
+    </ul></li>
+    <li><h4>Proje Araçları</h4></li>
+    <li>
+      <ul>
+        <li><a href="https://github.com/vuejs/vue-devtools" class="nav-link" target="_blank">Devtools</a></li>
+        <li><a href="https://cli.vuejs.org/" class="nav-link" target="_blank">Vue CLI</a></li>
+        <li><a href="https://vue-loader.vuejs.org" class="nav-link" target="_blank">Vue Loader</a></li>
+      </ul>
+    </li>
+    <li><h4>Ana Kütüphaneler</h4></li>
+    <li><ul>
+      <li><a href="https://router.vuejs.org/" class="nav-link" target="_blank">Vue Router</a></li>
+      <li><a href="https://vuex.vuejs.org/" class="nav-link" target="_blank">Vuex</a></li>
+      <li><a href="https://ssr.vuejs.org/" class="nav-link" target="_blank">Vue Server Renderer</a></li>
+    </ul></li>
+    <li><h4>Son Gelişmeler</h4></li>
+    <li><ul>
+      <li><a href="https://news.vuejs.org" class="nav-link" target="_blank">Haftalık Haberler</a></li>
+      <li><a href="https://github.com/vuejs/vue/projects/6" class="nav-link" target="_blank">Gelecek Planları</a></li>
+      <li><a href="https://events.vuejs.org/" class="nav-link" target="_blank">Etkinlikler</a></li>
+      <li><a href="https://twitter.com/vuejs" class="nav-link" target="_blank">Twitter</a></li>
+      <li><a href="https://medium.com/the-vue-point" class="nav-link" target="_blank">Blog</a></li>
+      <li><a href="https://vuejobs.com/?ref=vuejs" class="nav-link" target="_blank">İş İmkanları</a></li>
+      <li><a href="https://dev.to/t/vue" class="nav-link" target="_blank">DEV Topluluğu</a></li>
+    </ul></li>
+    <li><h4>Kaynak Listeleri</h4></li>
+    <li><ul>
+      <li><a href="https://github.com/vuejs" class="nav-link" target="_blank">Resmi Kod Kaynakları</a></li>
+      <li><a href="https://curated.vuejs.org/" class="nav-link" target="_blank">Vue Bağlantılı Projeler</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" class="nav-link" target="_blank">Awesome Vue</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li>
+  <a href="/tr.vuejs.org/v2/guide/team.html" class="nav-link team">Team</a>
+</li>
+<li class="nav-dropdown-container support-vue">
+  <a href="/support-vuejs/" class="nav-link">Vue'yi Destekle</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><ul>
+      <li><a href="/support-vuejs/#One-time-Donations" class="nav-link">Tek Seferlik Bağış</a></li>
+      <li><a href="/support-vuejs/#Recurring-Pledges" class="nav-link">Tekrarlı Ödeme</a></li>
+      <li><a href="https://vue.threadless.com" target="_blank" class="nav-link">T-Shirt Mağazası</a></li>
+    </ul></li>
+  </ul>
+</li>
+
+<li class="nav-dropdown-container language">
+  <a class="nav-link">Diğer Diller</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">English</a></li>
+    <li><a href="https://cn.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://jp.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">日本語</a></li>
+    <li><a href="https://ru.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Русский</a></li>
+    <li><a href="https://kr.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">한국어</a></li>
+    <li><a href="https://br.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Português</a></li>
+    <li><a href="https://fr.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Français</a></li>
+    <li><a href="https://vi.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Tiếng Việt</a></li>
+    <li><a href="https://animyrch.github.io/tr.vuejs.org/v2/cookbook/serverless-blog.html" class="nav-link" target="_blank">Türkçe</a></li>
+  </ul>
+</li>
+
+
+    </ul>
+    <div class="list">
+      <div id="sidebar-sponsors-special">
+  <div class="main-sponsor">
+    <span>Özel Sponsor</span>
+    <div>
+    <a href="https://stdlib.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/stdlib.png" alt>
+    </a>
+    </div>
+  </div>
+</div>
+
+<div id="sidebar-sponsors-platinum-left">
+  <div class="main-sponsor">
+    <span>Platin Sponsorlar</span>
+    <div>
+    <a href="https://moduscreate.com/?utm_source=Vue&utm_medium=Partnership&utm_campaign=VueShip" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/modus.png" alt="Modus">
+    </a>
+    <a href="https://bit.dev/?utm_source=vue&utm_medium=vue&utm_campaign=vue&utm_term=vue&utm_content=vue" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/bit.png" alt="Bit">
+    </a>
+    <a href="http://tooltwist.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/tooltwist.png" alt="Tooltwist">
+    </a>
+    <a href="https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vueschool.png" alt="VueSchool">
+    </a>
+    <a href="https://vehikl.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vehikl.png" alt="Vehikl">
+    </a>
+    <a href="https://www.nativescript.org/vue?utm_source=vue-js-org&utm_medium=website&utm_campaign=nativescript-awareness" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/nativescript.png" alt="NativeScript">
+    </a>
+    </div>
+  </div>
+  <a class="become-backer" href="/tr.vuejs.org/support-vuejs">
+    Siz de sponsor olun
+  </a>
+</div>
+
+
+      
+        <h2>
+          
+          Cookbook<sup class="beta">beta</sup>
+          
+        </h2>
+        <ul class="menu-root">
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/index.html" class="sidebar-link">Introduction</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/adding-instance-properties.html" class="sidebar-link">Adding Instance Properties</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/form-validation.html" class="sidebar-link">Form Validation</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/editable-svg-icons.html" class="sidebar-link">Editable SVG Icon Systems</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/serverless-blog.html" class="sidebar-link current">Create a CMS-Powered Blog</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/unit-testing-vue-components.html" class="sidebar-link">Unit Testing Vue Components</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/creating-custom-scroll-directives.html" class="sidebar-link">Creating Custom Scroll Directives</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/debugging-in-vscode.html" class="sidebar-link">Debugging in VS Code</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html" class="sidebar-link">Using Axios to Consume APIs</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/avoiding-memory-leaks.html" class="sidebar-link">Avoiding Memory Leaks</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/client-side-storage.html" class="sidebar-link">Client-Side Storage</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/packaging-sfc-for-npm.html" class="sidebar-link">Packaging Vue Components for npm</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/dockerize-vuejs-app.html" class="sidebar-link">Dockerize Vue.js App</a>
+    </li>
+  
+    
+    
+    <li>
+      <a href="/tr.vuejs.org/v2/cookbook/practical-use-of-scoped-slots.html" class="sidebar-link">Practical use of scoped slots with GoogleMaps</a>
+    </li>
+  
+</ul>
+
+      
+    </div>
+  </div>
+</div>
+
+<div id="sidebar-sponsors-platinum-right">
+  <div class="main-sponsor">
+    <span>Platin Sponsorlar</span>
+    <div>
+    <a href="https://moduscreate.com/?utm_source=Vue&utm_medium=Partnership&utm_campaign=VueShip" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/modus.png" alt="Modus">
+    </a>
+    <a href="https://bit.dev/?utm_source=vue&utm_medium=vue&utm_campaign=vue&utm_term=vue&utm_content=vue" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/bit.png" alt="Bit">
+    </a>
+    <a href="http://tooltwist.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/tooltwist.png" alt="Tooltwist">
+    </a>
+    <a href="https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vueschool.png" alt="VueSchool">
+    </a>
+    <a href="https://vehikl.com/" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/vehikl.png" alt="Vehikl">
+    </a>
+    <a href="https://www.nativescript.org/vue?utm_source=vue-js-org&utm_medium=website&utm_campaign=nativescript-awareness" target="_blank" class="logo">
+      <img src="/tr.vuejs.org/images/nativescript.png" alt="NativeScript">
+    </a>
+    </div>
+  </div>
+  <a class="become-backer" href="/tr.vuejs.org/support-vuejs">
+    Siz de sponsor olun
+  </a>
+</div>
+
+
+
+<div class="content cookbook with-sidebar ">
+  
+    
+      <div id="ad">
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIK2QU&placement=vuejsorg" id="_carbonads_js">
+  </script>
+</div>
+
+    
+  
+  
+    <h1>Create a CMS-Powered Blog</h1>
+  
+  
+    <p>So you’ve just launched your Vue.js website, congrats! Now you want to add a blog that quickly plugs into your website and you don’t want to have to spin up a whole server just to host a Wordpress instance (or any DB-powered CMS for that matter). You want to just be able to add a few Vue.js blog components and some routes and have it all just work, right? What you’re looking for is a blog that’s powered entirely by API’s you can consume directly from your Vue.js application. This tutorial will teach you how to do just that, let’s dive in!</p>
+<p>We’re going to quickly build a CMS-powered blog with Vue.js. It uses <a href="https://buttercms.com/" target="_blank" rel="noopener">ButterCMS</a>, an API-first CMS that lets you manage content using the ButterCMS dashboard and integrate our content API into your Vue.js app. You can use ButterCMS for new or existing Vue.js projects.</p>
+<p><img src="https://user-images.githubusercontent.com/160873/36677285-648798e4-1ad3-11e8-9454-d22fca8280b7.png" alt="Butter Dashboard" title="Butter Dashboard"></p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>Run this in your commandline:</p>
+<pre><code class="hljs bash">npm install buttercms --save</code></pre>
+<p>Butter can also be loaded using a CDN:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.buttercms.com/buttercms-1.1.0.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<h2 id="Quickstart"><a href="#Quickstart" class="headerlink" title="Quickstart"></a>Quickstart</h2><p>Set your API token:</p>
+<pre><code class="hljs javascript"><span class="hljs-keyword">var</span> butter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'buttercms'</span>)(<span class="hljs-string">'your_api_token'</span>);</code></pre>
+<p>Using ES6:</p>
+<pre><code class="hljs javascript"><span class="hljs-keyword">import</span> Butter <span class="hljs-keyword">from</span> <span class="hljs-string">'buttercms'</span>;
+<span class="hljs-keyword">const</span> butter = Butter(<span class="hljs-string">'your_api_token'</span>);</code></pre>
+<p>Using CDN:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.buttercms.com/buttercms-1.1.0.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">var</span> butter = Butter(<span class="hljs-string">'your_api_token'</span>);
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<p>Import this file into any component you want to use ButterCMS. Then from the console run:</p>
+<pre><code class="hljs javascript">butter.post.list(&#123;<span class="hljs-attr">page</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">page_size</span>: <span class="hljs-number">10</span>&#125;).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(response)
+&#125;)</code></pre>
+<p>This API request fetches your blog posts. Your account comes with one example post which you’ll see in the response.</p>
+<h2 id="Display-posts"><a href="#Display-posts" class="headerlink" title="Display posts"></a>Display posts</h2><p>To display posts we create a <code>/blog</code> route (using Vue Router) in our app and fetch blog posts from the Butter API, as well as a <code>/blog/:slug</code> route to handle individual posts.</p>
+<p>See the ButterCMS <a href="https://buttercms.com/docs/api/?javascript#blog-posts" target="_blank" rel="noopener">API reference</a> for additional options such as filtering by category or author. The response also includes some metadata we’ll use for pagination.</p>
+<p><code>router/index.js:</code></p>
+<pre><code class="hljs javascript"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> Router <span class="hljs-keyword">from</span> <span class="hljs-string">'vue-router'</span>
+<span class="hljs-keyword">import</span> BlogHome <span class="hljs-keyword">from</span> <span class="hljs-string">'@/components/BlogHome'</span>
+<span class="hljs-keyword">import</span> BlogPost <span class="hljs-keyword">from</span> <span class="hljs-string">'@/components/BlogPost'</span>
+
+Vue.use(Router)
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">new</span> Router(&#123;
+  <span class="hljs-attr">mode</span>: <span class="hljs-string">'history'</span>,
+  <span class="hljs-attr">routes</span>: [
+    &#123;
+      <span class="hljs-attr">path</span>: <span class="hljs-string">'/blog/'</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">'blog-home'</span>,
+      <span class="hljs-attr">component</span>: BlogHome
+    &#125;,
+    &#123;
+      <span class="hljs-attr">path</span>: <span class="hljs-string">'/blog/:slug'</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">'blog-post'</span>,
+      <span class="hljs-attr">component</span>: BlogPost
+    &#125;
+  ]
+&#125;)</code></pre>
+<p>Then create <code>components/BlogHome.vue</code> which will be your blog homepage that lists your most recent posts.</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">import</span> &#123; butter &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'@/buttercms'</span>
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'blog-home'</span>,
+    data() &#123;
+      <span class="hljs-keyword">return</span> &#123;
+        <span class="hljs-attr">page_title</span>: <span class="hljs-string">'Blog'</span>,
+        <span class="hljs-attr">posts</span>: []
+      &#125;
+    &#125;,
+    <span class="hljs-attr">methods</span>: &#123;
+      getPosts() &#123;
+        butter.post.list(&#123;
+          <span class="hljs-attr">page</span>: <span class="hljs-number">1</span>,
+          <span class="hljs-attr">page_size</span>: <span class="hljs-number">10</span>
+        &#125;).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;
+          <span class="hljs-keyword">this</span>.posts = res.data.data
+        &#125;)
+      &#125;
+    &#125;,
+    created() &#123;
+      <span class="hljs-keyword">this</span>.getPosts()
+    &#125;
+  &#125;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"blog-home"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>&#123;&#123; page_title &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Create `v-for` and apply a `key` for Vue. Here we are using a combination of the slug and index. --&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span>
+        <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(post,index) in posts"</span>
+        <span class="hljs-attr">:key</span>=<span class="hljs-string">"post.slug + '_' + index"</span>
+      &gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/blog/' + post.slug"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">article</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"media"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">figure</span>&gt;</span>
+              <span class="hljs-comment">&lt;!-- Bind results using a `:` --&gt;</span>
+              <span class="hljs-comment">&lt;!-- Use a `v-if`/`else` if there is a `featured_image` --&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">img</span>
+                <span class="hljs-attr">v-if</span>=<span class="hljs-string">"post.featured_image"</span>
+                <span class="hljs-attr">:src</span>=<span class="hljs-string">"post.featured_image"</span>
+                <span class="hljs-attr">alt</span>=<span class="hljs-string">""</span>
+              &gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">img</span>
+                <span class="hljs-attr">v-else</span>
+                <span class="hljs-attr">src</span>=<span class="hljs-string">"http://via.placeholder.com/250x250"</span>
+                <span class="hljs-attr">alt</span>=<span class="hljs-string">""</span>
+              &gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">figure</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>&#123;&#123; post.title &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;&#123; post.summary &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-name">article</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+<p>Here’s what it looks like (note we added CSS from <a href="https://bulma.io/" target="_blank" rel="noopener">https://bulma.io/</a> for quick styling):</p>
+<p><img src="https://user-images.githubusercontent.com/160873/36868500-1b22e374-1d5e-11e8-82a0-20c8dc312716.png" alt="buttercms-bloglist"></p>
+<p>Now create <code>components/BlogPost.vue</code> which will be your Blog Post page to list a single post.</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">import</span> &#123; butter &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'@/buttercms'</span>
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'blog-post'</span>,
+    data() &#123;
+      <span class="hljs-keyword">return</span> &#123;
+        <span class="hljs-attr">post</span>: &#123;&#125;
+      &#125;
+    &#125;,
+    <span class="hljs-attr">methods</span>: &#123;
+      getPost() &#123;
+        butter.post.retrieve(<span class="hljs-keyword">this</span>.$route.params.slug)
+          .then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;
+            <span class="hljs-keyword">this</span>.post = res.data
+          &#125;).catch(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;
+            <span class="hljs-built_in">console</span>.log(res)
+          &#125;)
+      &#125;
+    &#125;,
+    created() &#123;
+      <span class="hljs-keyword">this</span>.getPost()
+    &#125;
+  &#125;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"blog-post"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>&#123;&#123; post.data.title &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>&#123;&#123; post.data.author.first_name &#125;&#125; &#123;&#123; post.data.author.last_name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-html</span>=<span class="hljs-string">"post.data.body"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span>
+      <span class="hljs-attr">v-if</span>=<span class="hljs-string">"post.meta.previous_post"</span>
+      <span class="hljs-attr">:to</span>=<span class="hljs-string">"/blog/ + post.meta.previous_post.slug"</span>
+      <span class="hljs-attr">class</span>=<span class="hljs-string">"button"</span>
+    &gt;</span>
+      &#123;&#123; post.meta.previous_post.title &#125;&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span>
+      <span class="hljs-attr">v-if</span>=<span class="hljs-string">"post.meta.next_post"</span>
+      <span class="hljs-attr">:to</span>=<span class="hljs-string">"/blog/ + post.meta.next_post.slug"</span>
+      <span class="hljs-attr">class</span>=<span class="hljs-string">"button"</span>
+    &gt;</span>
+      &#123;&#123; post.meta.next_post.title &#125;&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+<p>Here’s a preview:</p>
+<p><img src="https://user-images.githubusercontent.com/160873/36868506-218c86b6-1d5e-11e8-8691-0409d91366d6.png" alt="buttercms-blogdetail"></p>
+<p>Now our app is pulling all blog posts and we can navigate to individual posts. However, our next/previous post buttons are not working.</p>
+<p>One thing to note when using routes with params is that when the user navigates from <code>/blog/foo</code> to <code>/blog/bar</code>, the same component instance will be reused. Since both routes render the same component, this is more efficient than destroying the old instance and then creating a new one.</p>
+<p class="tip">Be aware, that using the component this way will mean that the lifecycle hooks of the component will not be called. Visit the Vue Router’s docs to learn more about <a href="https://router.vuejs.org/en/essentials/dynamic-matching.html" target="_blank" rel="noopener">Dynamic Route Matching</a></p>
+
+<p>To fix this we need to watch the <code>$route</code> object and call <code>getPost()</code> when the route changes.</p>
+<p>Updated <code>&lt;script&gt;</code> section in <code>components/BlogPost.vue</code>:</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">import</span> &#123; butter &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'@/buttercms'</span>
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'blog-post'</span>,
+    data() &#123;
+      <span class="hljs-keyword">return</span> &#123;
+        <span class="hljs-attr">post</span>: <span class="hljs-literal">null</span>
+      &#125;
+    &#125;,
+    <span class="hljs-attr">methods</span>: &#123;
+      getPost() &#123;
+        butter.post.retrieve(<span class="hljs-keyword">this</span>.$route.params.slug)
+          .then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;
+            <span class="hljs-keyword">this</span>.post = res.data
+          &#125;).catch(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;
+            <span class="hljs-built_in">console</span>.log(res)
+          &#125;)
+      &#125;
+    &#125;,
+    <span class="hljs-attr">watch</span>: &#123;
+      <span class="hljs-attr">$route</span>: &#123;
+        <span class="hljs-attr">immediate</span>: <span class="hljs-literal">true</span>,
+        handler(to, <span class="hljs-keyword">from</span>) &#123;
+          <span class="hljs-keyword">this</span>.getPost()
+        &#125;
+      &#125;
+    &#125;
+  &#125;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<p>Now your app has a working blog that can be updated easily in the ButterCMS dashboard.</p>
+<h2 id="Categories-Tags-and-Authors"><a href="#Categories-Tags-and-Authors" class="headerlink" title="Categories, Tags, and Authors"></a>Categories, Tags, and Authors</h2><p>Use Butter’s APIs for categories, tags, and authors to feature and filter content on your blog.</p>
+<p>See the ButterCMS API reference for more information about these objects:</p>
+<ul>
+<li><a href="https://buttercms.com/docs/api/?ruby#categories" target="_blank" rel="noopener">Categories</a></li>
+<li><a href="https://buttercms.com/docs/api/?ruby#tags" target="_blank" rel="noopener">Tags</a></li>
+<li><a href="https://buttercms.com/docs/api/?ruby#authors" target="_blank" rel="noopener">Authors</a></li>
+</ul>
+<p>Here’s an example of listing all categories and getting posts by category. Call these methods on the <code>created()</code> lifecycle hook:</p>
+<pre><code class="hljs javascript">methods: &#123;
+  <span class="hljs-comment">// ...</span>
+  getCategories() &#123;
+    butter.category.list()
+      .then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'List of Categories:'</span>)
+        <span class="hljs-built_in">console</span>.log(res.data.data)
+      &#125;)
+  &#125;,
+  getPostsByCategory() &#123;
+    butter.category.retrieve(<span class="hljs-string">'example-category'</span>, &#123;
+        <span class="hljs-attr">include</span>: <span class="hljs-string">'recent_posts'</span>
+      &#125;)
+      .then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Posts with specific category:'</span>)
+        <span class="hljs-built_in">console</span>.log(res)
+      &#125;)
+  &#125;
+&#125;,
+created() &#123;
+  <span class="hljs-comment">// ...</span>
+  <span class="hljs-keyword">this</span>.getCategories()
+  <span class="hljs-keyword">this</span>.getPostsByCategory()
+&#125;</code></pre>
+<h2 id="Alternative-Patterns"><a href="#Alternative-Patterns" class="headerlink" title="Alternative Patterns"></a>Alternative Patterns</h2><p>An alternative pattern to consider, especially if you prefer writing only in Markdown, is using something like <a href="https://nuxtent-module.netlify.com/guide/writing/#async-components" target="_blank" rel="noopener">Nuxtent</a>. Nuxtent allows you to use <code>Vue Component</code> inside of Markdown files. This approach would be akin to a static site approach (i.e. Jekyll) where you compose your blog posts in Markdown files. Nuxtent adds a nice integration between Vue.js and Markdown allowing you to live in a 100% Vue.js world.</p>
+<h2 id="Wrap-up"><a href="#Wrap-up" class="headerlink" title="Wrap up"></a>Wrap up</h2><p>That’s it! You now have a fully functional CMS-powered blog running in your app. We hope this tutorial was helpful and made your development experience with Vue.js even more enjoyable :)</p>
+
+  
+  
+  <div class="footer">
+      <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+<div class="bsa-cpc"></div>
+<script>
+  (function(){
+    if(typeof _bsa !== 'undefined' && _bsa) {
+    _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+      target: '.bsa-cpc',
+      align: 'horizontal',
+      disable_css: 'true'
+    });
+      }
+  })();
+</script>
+
+    Caught a mistake or want to contribute to the documentation?
+    <a href="https://github.com/vuejs/vuejs.org/blob/master/src/v2/cookbook/serverless-blog.md" target="_blank">
+      Edit this page on GitHub!
+    </a>
+  </div>
+</div>
+
+        
+      </div>
+      <script src="/tr.vuejs.org/js/smooth-scroll.min.js"></script>
+    
+
+    <!-- main custom script for sidebars, version selects etc. -->
+    <script src="/tr.vuejs.org/js/css.escape.js"></script>
+    <script src="/tr.vuejs.org/js/common.js"></script>
+
+    <!-- search -->
+    <link href="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/tr.vuejs.org/css/search.css">
+    <script src="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script>
+    <script>
+    [
+      '#search-query-nav',
+      '#search-query-sidebar',
+      '#search-query-menu'
+    ].forEach(function (selector) {
+      if (!document.querySelector(selector)) return
+      // search index defaults to v2
+      var match = window.location.pathname.match(/^\/(v\d+)/)
+      var version = match ? match[1] : 'v2'
+      docsearch({
+      appId: 'BH4D9OD16A',
+      apiKey: '85cc3221c9f23bfbaa4e3913dd7625ea',
+      indexName: 'vuejs',
+      inputSelector: selector,
+      algoliaOptions: { facetFilters: ["version:" + version] },
+      autocompleteOptions: { hint: false, appendTo: 'body'}
+      })
+    })
+    </script>
+
+    <!-- fastclick -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      FastClick.attach(document.body)
+    }, false)
+    </script>
+  </body>
+</html>
