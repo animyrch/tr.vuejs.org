@@ -56,7 +56,7 @@ new Vue({
 
 `span` içerisindeki metin `rawHtml` özelliğinin değeri ile değiştirilecektir ve bu metin saf HTML olarak yorumlanacak olup veri bağları dikkate alınmayacaktır. `v-html` direktifi içerisinde dinamik şablon oluşturmak mümkün değildir zira Vue, dizgi tabanlı bir şablon motoru değildir. Bunun yerine kullanıcı arayüzü elemanlarının yeniden kullanımı ve birlikte kullanımına yönelik temel birim olarak bileşenler kullanılmaktadır.
 
-<p class="tip">İçeriği belirsiz HTML girdilerinin internet sitenizde dinamik olarak modellenmesi son derece tehlikeli olabilir zira kolayca [XSS zafiyetleri](https://tr.wikipedia.org/wiki/Siteler_aras%C4%B1_betik_%C3%A7al%C4%B1%C5%9Ft%C4%B1rma) ile sonuçlanabilir. HTML değerlerinin takibi işlevini yalnızca güvenilir içerikler üzerinde kullanın ve **asla** kullanıcı tarafından temin edilen içerik üzerinde kullanmayın.<Çp>
+<p class="tip">İçeriği belirsiz HTML girdilerinin internet sitenizde dinamik olarak modellenmesi son derece tehlikeli olabilir zira kolayca [XSS zafiyetleri](https://tr.wikipedia.org/wiki/Siteler_aras%C4%B1_betik_%C3%A7al%C4%B1%C5%9Ft%C4%B1rma) ile sonuçlanabilir. HTML değerlerinin takibi işlevini yalnızca güvenilir içerikler üzerinde kullanın ve **asla** kullanıcı tarafından temin edilen içerik üzerinde kullanmayın.</p>
 
 ### HTML Nitelikleri
 
