@@ -39,7 +39,7 @@ Ayrıca [v-once direktifini](../api/#v-once) kullanarak değişken değerinin ya
 
 {% raw %}
 <div id="example1" class="demo">
-  <p>Bıyık ile kullanım: {{ rawHtml }}</p>
+  <p>Bıyık ile kullanım: {{ safHtml }}</p>
   <p>v-html direktifi ile kullanım: <span v-html="safHtml"></span></p>
 </div>
 <script>
@@ -47,7 +47,7 @@ new Vue({
   el: '#example1',
   data: function () {
     return {
-      safHtml: ‘<span style="color: red">Bu metnin rengi kırmızı olmalı.</span>'
+      safHtml: '<span style="color: red">Bu metnin rengi kırmızı olmalı.</span>'
     }
   }
 })
