@@ -1047,7 +1047,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>v-html direktifi ile kullanım: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-html</span>=<span class="hljs-string">"safHtml"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
 
 <div id="example1" class="demo">
-  <p>Bıyık ile kullanım: {{ rawHtml }}</p>
+  <p>Bıyık ile kullanım: {{ safHtml }}</p>
   <p>v-html direktifi ile kullanım: <span v-html="safHtml"></span></p>
 </div>
 <script>
@@ -1055,7 +1055,7 @@ new Vue({
   el: '#example1',
   data: function () {
     return {
-      safHtml: ‘<span style="color: red">Bu metnin rengi kırmızı olmalı.</span>'
+      safHtml: '<span style="color: red">Bu metnin rengi kırmızı olmalı.</span>'
     }
   }
 })
